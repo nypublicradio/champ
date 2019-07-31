@@ -1,0 +1,19 @@
+{
+  "name": "champ",
+  "version": "0.0.1",
+  "description": "Convert HTML A M P",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nypublicradio/champ.git"
+  },
+  "author": "Brian Whitton, NYPR Digital Ops",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nypublicradio/champ/issues"
+  },
+  "homepage": "https://github.com/nypublicradio/champ#readme"
+}
