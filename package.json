@@ -15,5 +15,16 @@
   "bugs": {
     "url": "https://github.com/nypublicradio/champ/issues"
   },
-  "homepage": "https://github.com/nypublicradio/champ#readme"
+  "homepage": "https://github.com/nypublicradio/champ#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "jsdom": "^15.1.1",
+    "request-promise-native": "^1.0.7"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "mocha": "^6.2.0"
+  }
 }
