@@ -24,7 +24,10 @@
     "request-promise-native": "^1.0.7"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^6.1.0",
-    "mocha": "^6.2.0"
+    "mocha": "^6.2.0",
+    "nock": "^10.0.6",
+    "supertest": "^4.0.2"
   }
 }
