@@ -15,7 +15,7 @@ $ node index
 
 Express looks for templates in the `views` directory by default.
 
-Each site implementing a set of AMP templates should add a new folder to `views` and a new route to `routes` to handle fetching, data managment, and rendering the template.
+Each site implementing a set of AMP templates should add a new folder to `views` and a new route to `routes` to handle fetching, data management, and rendering the template.
 
 ## Notes on Deployment
 
