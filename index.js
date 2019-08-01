@@ -1,22 +1,7 @@
 require('dotenv').config();
+const server = require('./src/app');
 
-const express = require('express');
-const hbs = require('express-handlebars');
+const PORT = process.env.PORT || 8000;
 
-const gothamist = require('./routes/gothamist');
 
-const app = express();
-
-const errorHandler = (err, req, res, next) => {
-  res.status(500);
-  res.render('error', {layout: false});
-}
-
-app.engine('hbs', hbs());
-app.set('view engine', 'hbs');
-
-app.use('/gothamist', gothamist);
-
-app.use(errorHandler);
-
-app.listen(8000, () => console.log('listening'));
+server.listen(8000, () => console.log(`Server listening on *:${PORT}`));
