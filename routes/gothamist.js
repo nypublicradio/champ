@@ -11,9 +11,11 @@ const ARTICLES_PATH = 'articles';
 
 router.get(`/:section/${ARTICLES_PATH}/:slug`, async (req, res, next) => {
   const { section, slug } = req.params;
+  const URL = `${GOTH_HOST}/${section}/${ARTICLES_PATH}/${slug}?build=brian/cms-545`;
+
   let html
   try {
-    html = rp(`${GOTH_HOST}/${section}/articles/${slug}?build=brian/cms-545`);
+    html = await rp(URL);
   } catch(e) {
     return next(e);
   }
