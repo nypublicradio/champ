@@ -13,7 +13,7 @@ router.get('/:section/articles/:slug', async (req, res, next) => {
   try {
     html = rp(`${GOTH_HOST}/${section}/articles/${slug}?build=brian/cms-545`);
   } catch(e) {
-    next(e);
+    return next(e);
   }
 
   const { document } = (new JSDOM(html)).window;
