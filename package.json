@@ -4,7 +4,7 @@
   "description": "Convert HTML A M P",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "node -r dotenv/config ./node_modules/mocha/bin/mocha -- dotenv_config_path=.env.sample"
   },
   "repository": {
     "type": "git",
