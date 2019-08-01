@@ -3,9 +3,9 @@ const rp = require('request-promise-native');
 const jsdom = require('jsdom');
 
 
-const GOTH_HOST = process.env.GOTHAMIST_HOST;
 const { JSDOM } = jsdom;
 const router = express.Router();
+const GOTH_HOST = process.env.GOTHAMIST_HOST;
 
 router.get('/:section/articles/:slug', async (req, res, next) => {
   const { section, slug } = req.params;
