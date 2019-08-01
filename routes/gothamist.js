@@ -17,14 +17,13 @@ router.get('/:section/articles/:slug', async (req, res, next) => {
   }
 
   const { document } = (new JSDOM(html)).window;
+  const locals = {
+    title: document.title,
+  };
 
   try {
-    const articleHeader = document.querySelector('.c-article__header');
-    const articleBody = document.querySelector('.c-article__body');
-
     res.render('gothamist/article', {
-      header: articleHeader.outerHTML,
-      body: articleBody.outerHTML,
+      ...locals,
       layout: false,
     });
   } catch(e) {
