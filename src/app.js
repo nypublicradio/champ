@@ -24,7 +24,7 @@ const errorHandler = (err, req, res, next) => {
   res.render('error', {layout: false});
 }
 
-app.engine('hbs', hbs());
+app.engine('hbs', hbs({ extname: 'hbs' }));
 app.set('view engine', 'hbs');
 
 app.use(Sentry.Handlers.requestHandler());
