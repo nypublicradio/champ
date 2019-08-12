@@ -9,7 +9,7 @@ const GOTH_HOST = process.env.GOTHAMIST_HOST;
 
 router.get(`/:section/:slug`, async (req, res, next) => {
   const { section, slug } = req.params;
-  const URL = `${GOTH_HOST}/${section}/${slug}?build=brian/cms-545`;
+  const URL = `${GOTH_HOST}/${section}/${slug}`;
 
   let html
   try {

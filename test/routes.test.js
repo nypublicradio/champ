@@ -30,7 +30,7 @@ describe('Gothamist route', function() {
   });
 
   it('if the upstream returns a 404, so does the app', function(done) {
-    const UPSTREAM_PATH = '/foo/articles/bar';
+    const UPSTREAM_PATH = '/foo/bar';
 
     nock(process.env.GOTHAMIST_HOST)
       .get(UPSTREAM_PATH)
