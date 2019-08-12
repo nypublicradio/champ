@@ -19,4 +19,4 @@ Each site implementing a set of AMP templates should add a new folder to `views`
 
 ## Notes on Deployment
 
-`NODE_ENV` must be set to `production` in order for the app to run in production mode.
+`NODE_ENV` must be set to `production` in order for the app to run in production mode. Note that this value is also passed to sentry for categorizing uncaught exceptions, so set it to `demo` in the demo infra.
