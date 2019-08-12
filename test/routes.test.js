@@ -8,7 +8,7 @@ const app = require('../src/app');
 
 
 describe('Gothamist route', function() {
-  it('returns a 200', function() {
+  it('returns a 200', function(done) {
     const TITLE = 'FOO BAR - Gothamist';
     const PATH = '/foo/bar';
     nock(process.env.GOTHAMIST_HOST)
@@ -26,6 +26,7 @@ describe('Gothamist route', function() {
       .get(`/gothamist${PATH}`)
       .expect(200, (_err, res) => {
         expect(res.text).to.include(`<title>${TITLE}</title>`);
+        done();
       });
   });
 
