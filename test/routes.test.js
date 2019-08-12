@@ -10,7 +10,7 @@ const app = require('../src/app');
 describe('Gothamist route', function() {
   it('returns a 200 ', function() {
     const TITLE = 'FOO BAR - Gothamist';
-    const PATH = '/foo/articles/bar';
+    const PATH = '/foo/bar';
     nock(process.env.GOTHAMIST_HOST)
       .get(PATH)
       .query(true)

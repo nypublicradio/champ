@@ -7,11 +7,9 @@ const { JSDOM } = jsdom;
 const router = express.Router();
 const GOTH_HOST = process.env.GOTHAMIST_HOST;
 
-const ARTICLES_PATH = 'articles';
-
-router.get(`/:section/${ARTICLES_PATH}/:slug`, async (req, res, next) => {
+router.get(`/:section/:slug`, async (req, res, next) => {
   const { section, slug } = req.params;
-  const URL = `${GOTH_HOST}/${section}/${ARTICLES_PATH}/${slug}?build=brian/cms-545`;
+  const URL = `${GOTH_HOST}/${section}/${slug}?build=brian/cms-545`;
 
   let html
   try {
