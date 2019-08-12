@@ -1,3 +1,5 @@
+require('express-async-errors');
+
 const express = require('express');
 const hbs = require('express-handlebars');
 const Sentry = require('@sentry/node');
