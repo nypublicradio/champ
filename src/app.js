@@ -1,11 +1,11 @@
 require('express-async-errors');
 
+const logger = require('debug')('champ:app');
 const express = require('express');
 const hbs = require('express-handlebars');
 const Sentry = require('@sentry/node');
 
 const gothamist = require('../routes/gothamist');
-
 
 const app = express();
 
@@ -17,6 +17,9 @@ Sentry.init({
 // express error handlers require an arity of 4
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
+  if (!err.statusCode) {
+    logger(err);
+  }
   res.status(err.statusCode || 500);
   res.render('error', {layout: false});
 }
