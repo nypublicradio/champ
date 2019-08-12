@@ -8,8 +8,16 @@ _need we say more?_
 $ git clone git@github.com:nypublicradio/champ
 $ cd champ
 $ npm i
-$ node index
+$ npm start
 ```
+
+### Development
+
+This package comes with `debug` as a dependency to assist with logging during development. Setup a new logger by following the directions in the [debug repo](https://github.com/visionmedia/debug). Please namespace any new loggers with `champ:`.
+
+`$ npm start` will turn on all the loggers in the `champ:` namespace by default. Use `$ npm run debug` to see more verbose output (e.g. from express itself).
+
+When `NODE_ENV` is set, the application-level loggers will be disabled. **NOTE** that any library loggers will still be turned on, i.e. `$ NODE_ENV=prod npm run debug` will still display output from the express loggers.
 
 ## Application Layout
 
