@@ -6,6 +6,7 @@ const {
   amplify,
   ampTweet,
   ampInsta,
+  ampYoutube,
   makeElement,
 } = require('../lib/amp');
 
@@ -94,6 +95,18 @@ describe('amp conversions', function() {
 
       expect(AMP_IG.outerHTML).to.match(/<amp-instagram.*><\/amp-instagram>/);
       expect(AMP_IG.getAttribute('data-shortcode')).to.equal(IG_SHORTCODE);
+    });
+  });
+
+  describe('youtube', function() {
+    it('converts a youtube iframe into an amp-youtube node', function() {
+      const YOUTUBE_ID = 'abcd1234';
+      const IFRAME = makeElement(`<iframe src="${YOUTUBE_ID}" />`);
+
+      const AMP_YT = ampYoutube(IFRAME);
+
+      expect(AMP_YT.outerHTML).to.match(/<amp-youtube.*><\/amp-youtube>/);
+      expect(AMP_YT.getAttribute('data-videoid')).to.equal(YOUTUBE_ID);
     });
   });
 

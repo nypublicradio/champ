@@ -102,6 +102,22 @@ describe('article template', function() {
       .end(done);
   });
 
+  it('turns embedded youtube videos into amp-youtube', function(done) {
+    request(app)
+      .get(`/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const frag = fragment(text);
+
+        expect(frag.querySelector('iframe[src*="youtube"]'), 'original iframe should be removed').not.to.be.ok;
+
+        expect(frag.querySelector('script[src*="amp-youtube"]'), 'adds amp youtube script').to.be.ok;
+        expect(frag.querySelector('amp-youtube'), 'adds <amp-youtube/> tag').to.be.ok;
+        expect(frag.querySelector('amp-youtube').dataset.videoid).to.equal('abcd-1234');
+      })
+      .end(done);
+  });
+
   it('swaps in article content', function(done) {
     request(app)
       .get(`/gothamist${PATH}`)

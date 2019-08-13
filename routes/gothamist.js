@@ -8,6 +8,7 @@ const {
   ampImg,
   ampTweet,
   ampInsta,
+  ampYoutube,
   makeElement,
 } = require('../lib/amp');
 
@@ -21,10 +22,12 @@ const BODY_SELECTOR = '.c-article__body';
 const TAGS_SELECTOR = '.o-tags .o-tag';
 const TWEET_SELECTOR = 'blockquote.twitter-tweet';
 const IG_SELECTOR = 'blockquote[class*=instagram]';
+const YT_SELECTOR = 'iframe[src*=youtube]';
 
 const DUMMY_SCRIPT = makeElement('<script async />');
 const AMP_TWITTER = 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js';
 const AMP_IG = 'https://cdn.ampproject.org/v0/amp-instagram-0.1.js';
+const AMP_YT = 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js';
 
 const IG_LIB = 'instagram.com/embed.js';
 
@@ -69,6 +72,14 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
     // get rid of any embedded IG libs
     document.querySelectorAll(`script[src*="${IG_LIB}"]`).forEach(node => node.remove());
+  }
+
+  if (document.querySelector(YT_SELECTOR)) {
+    amplify(body, YT_SELECTOR,  ampYoutube);
+    DUMMY_SCRIPT.setAttribute('src', AMP_YT);
+    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-youtube');
+
+    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
   }
 
   const locals = {
