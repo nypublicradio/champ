@@ -7,6 +7,7 @@ const {
   amplify,
   ampImg,
   ampTweet,
+  makeElement,
 } = require('../lib/amp');
 
 
@@ -19,7 +20,8 @@ const BODY_SELECTOR = '.c-article__body';
 const TAGS_SELECTOR = '.o-tags .o-tag';
 const TWEET_SELECTOR = 'blockquote.twitter-tweet';
 
-const AMP_TWITTER = '<script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>'
+const DUMMY_SCRIPT = makeElement('<script async />');
+const AMP_TWITTER = 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js';
 
 router.get(`/:section/:slug`, async (req, res, next) => {
   const { section, slug } = req.params;
@@ -47,7 +49,10 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
   if (body && body.querySelector(TWEET_SELECTOR)) {
     amplify(body, TWEET_SELECTOR,  ampTweet);
-    meta.headerScripts.push(AMP_TWITTER);
+    DUMMY_SCRIPT.setAttribute('src', AMP_TWITTER);
+    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-twitter');
+
+    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
   }
 
   const locals = {
