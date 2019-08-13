@@ -19,11 +19,11 @@
     <meta name="description" content="{{ meta.description }}">
     <link rel="icon" href="/favicon.png" />
   </head>
-  <body class="c-body" id="body">
+  <body class="c-body" id="amp-body">
 
     {{> gothamist/side-menu}}
 
-    <div class="o-container" id="page-top">
+    <div class="o-container" id="amp-page-top">
       <header class="c-main-header js-this c-main-header--stationary">
         <div class="c-main-header__ad-unit">
           {{> gothamist/leaderboard}}
@@ -31,7 +31,7 @@
         <div class="c-main-header__inner js-stop-prop">
           <div class="c-main-header__left u-align-items--center">
             <div class="c-menu-toggle">
-              <button class="o-menu-toggle" on="tap:body.toggleClass(class='amp-sidebar--is-open'),sidebar.toggle">
+              <button class="o-menu-toggle" on="tap:amp-body.toggleClass(class='amp-sidebar--is-open'),sidebar.toggle">
                 <span class="is-vishidden">Menu</span>
                 <span class="o-menu-toggle__line"></span>
               </button>
@@ -73,7 +73,7 @@
             <div class="l-container--content u-section-spacing">
               <footer class="c-article__footer u-section-spacing">
                 <div class="c-article__tags">
-                  <div class="o-tags ">
+                  <div class="o-tags" id="amp-article-tags">
                     {{#each tags as |tag|}}
                       <a class="o-tag" href="{{tag.url}}">#{{tag.name}}</a>
                     {{/each}}
@@ -132,7 +132,7 @@
         </div>
       </main>
 
-      <a href="#page-top" class="o-to-top u-font--secondary-style u-font--xs u-color--black">
+      <a href="#amp-page-top" class="o-to-top u-font--secondary-style u-font--xs u-color--black">
         <span class="o-icon o-icon--up-arrow u-icon--m">
           {{> svgs/arrow}}
         </span>
