@@ -1,9 +1,7 @@
+const request = require('supertest');
 const nock = require('nock');
 const { expect } = require('chai');
 const { JSDOM: { fragment } } = require('jsdom');
-
-// reassign for convenience
-let request = require('supertest');
 
 const app = require('../src/app');
 const {
