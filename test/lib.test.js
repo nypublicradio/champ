@@ -4,6 +4,7 @@ const jsdom = require('jsdom');
 const {
   ampImg,
   amplify,
+  ampTweet,
   makeElement,
 } = require('../lib/amp');
 
@@ -61,6 +62,23 @@ describe('amp conversions', function() {
     });
   });
 
+  describe('tweets', function() {
+    it('converts a blockquote to an amp-twitter node', function() {
+      const TWEET_ID = '12345';
+      const BLOCKQUOTE = makeElement(`
+        <blockquote>
+          <p lang="en" dir="ltr">foo bar</p>
+          <a href="https://twitter.com/username/status/${TWEET_ID}?some=param">date</a>
+        </blockquote>
+      `);
+
+      const AMP_TWEET = ampTweet(BLOCKQUOTE);
+
+      expect(AMP_TWEET.outerHTML).to.match(/<amp-twitter.*><\/amp-twitter>/);
+
+      expect(AMP_TWEET.getAttribute('data-tweetid')).to.equal(TWEET_ID);
+    });
+  });
 
   describe.skip('galleries', function() {
     it('creates an amp carousel', function() {
