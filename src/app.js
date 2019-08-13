@@ -5,8 +5,13 @@ const express = require('express');
 const hbs = require('express-handlebars');
 const Sentry = require('@sentry/node');
 
+const helpers = require('../views/helpers');
 const gothamist = require('../routes/gothamist');
 
+const engine = hbs({
+  extname: 'hbs',
+  helpers,
+});
 const app = express();
 
 Sentry.init({
@@ -24,7 +29,8 @@ const errorHandler = (err, req, res, next) => {
   res.render('error', {layout: false});
 }
 
-app.engine('hbs', hbs({ extname: 'hbs' }));
+app.engine('hbs', engine);
+
 app.set('view engine', 'hbs');
 
 app.use(Sentry.Handlers.requestHandler());
