@@ -1,10 +1,14 @@
 const nock = require('nock');
 const { expect } = require('chai');
+const { JSDOM: { fragment } } = require('jsdom');
 
 // reassign for convenience
 let request = require('supertest');
 
 const app = require('../src/app');
+const {
+  ARTICLE_BODY,
+} = require('./fixtures');
 
 
 describe('Gothamist route', function() {
@@ -24,10 +28,9 @@ describe('Gothamist route', function() {
 
     request(app)
       .get(`/gothamist${PATH}`)
-      .expect(200, (_err, res) => {
-        expect(res.text).to.include(`<title>${TITLE}</title>`);
-        done();
-      });
+      .expect(200)
+      .expect(new RegExp(`<title>${TITLE}</title>`))
+      .end(done);
   });
 
   it('if the upstream returns a 404, so does the app', function(done) {
@@ -41,6 +44,42 @@ describe('Gothamist route', function() {
     request(app)
       .get(`/gothamist${UPSTREAM_PATH}`)
       .expect(404)
+      .end(done);
+  });
+});
+
+describe('article template', function() {
+
+  const PATH = '/foo/bar';
+
+  beforeEach(() => {
+    nock(process.env.GOTHAMIST_HOST)
+      .get(PATH)
+      .query(true)
+      .reply(200, ARTICLE_BODY);
+  });
+
+  it('turns images into amp-images', function(done) {
+    request(app)
+      .get(`/gothamist${PATH}`)
+      .expect(200)
+      .expect(/<amp-img/)
+      // no regular images
+      .expect(res => expect(res.text).not.to.match(/<img/))
+      .end(done);
+  });
+
+  it('swaps in article content', function(done) {
+    request(app)
+      .get(`/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const frag = fragment(text);
+        const headline = frag.querySelector('.c-article__headline');
+
+        expect(headline, 'headline should exist').to.exist;
+        expect(headline.textContent.trim()).to.equal('Fixture Article Title');
+      })
       .end(done);
   });
 });
