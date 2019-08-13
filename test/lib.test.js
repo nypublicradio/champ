@@ -5,6 +5,7 @@ const {
   ampImg,
   amplify,
   ampTweet,
+  ampInsta,
   makeElement,
 } = require('../lib/amp');
 
@@ -77,6 +78,23 @@ describe('amp conversions', function() {
       expect(AMP_TWEET.outerHTML).to.match(/<amp-twitter.*><\/amp-twitter>/);
 
       expect(AMP_TWEET.getAttribute('data-tweetid')).to.equal(TWEET_ID);
+    });
+  });
+
+  describe('instagram', function() {
+    it('converts a blockquote to an amp-instagram node', function() {
+      const IG_SHORTCODE = '12345';
+      const BLOCKQUOTE = makeElement(`
+        <blockquote data-instgrm-permalink="https://www.instagram.com/p/${IG_SHORTCODE}/">
+          <a href="instagram.com">intagram link</a>
+        </blockquote>
+      `);
+
+      const AMP_IG = ampInsta(BLOCKQUOTE);
+
+      expect(AMP_IG.outerHTML).to.match(/<amp-instagram.*><\/amp-instagram>/);
+
+      expect(AMP_IG.getAttribute('data-shortcode')).to.equal(IG_SHORTCODE);
     });
   });
 
