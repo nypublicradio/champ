@@ -93,7 +93,6 @@ describe('amp conversions', function() {
       const AMP_IG = ampInsta(BLOCKQUOTE);
 
       expect(AMP_IG.outerHTML).to.match(/<amp-instagram.*><\/amp-instagram>/);
-
       expect(AMP_IG.getAttribute('data-shortcode')).to.equal(IG_SHORTCODE);
     });
   });
