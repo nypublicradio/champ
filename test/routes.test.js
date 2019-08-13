@@ -85,6 +85,23 @@ describe('article template', function() {
       .end(done);
   });
 
+  it('turns embedded instagram posts into amp-instagram', function(done) {
+    request(app)
+      .get(`/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const frag = fragment(text);
+
+        expect(frag.querySelector('blockquote[class*="instagram"]'), 'original post should be removed').not.to.be.ok;
+        expect(frag.querySelector('script[src*="instagram.com"]'), 'strips embedded instagram library').not.to.be.ok;
+
+        expect(frag.querySelector('script[src*="amp-instagram"]'), 'adds amp instagram script').to.be.ok;
+        expect(frag.querySelector('amp-instagram'), 'adds <amp-instagram/> tag').to.be.ok;
+        expect(frag.querySelector('amp-instagram').dataset.shortcode).to.equal('12345');
+      })
+      .end(done);
+  });
+
   it('swaps in article content', function(done) {
     request(app)
       .get(`/gothamist${PATH}`)

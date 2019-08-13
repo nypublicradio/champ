@@ -7,6 +7,7 @@ const {
   amplify,
   ampImg,
   ampTweet,
+  ampInsta,
   makeElement,
 } = require('../lib/amp');
 
@@ -19,9 +20,13 @@ const HEADER_SELECTOR = '.c-article__header';
 const BODY_SELECTOR = '.c-article__body';
 const TAGS_SELECTOR = '.o-tags .o-tag';
 const TWEET_SELECTOR = 'blockquote.twitter-tweet';
+const IG_SELECTOR = 'blockquote[class*=instagram]';
 
 const DUMMY_SCRIPT = makeElement('<script async />');
 const AMP_TWITTER = 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js';
+const AMP_IG = 'https://cdn.ampproject.org/v0/amp-instagram-0.1.js';
+
+const IG_LIB = 'instagram.com/embed.js';
 
 router.get(`/:section/:slug`, async (req, res, next) => {
   const { section, slug } = req.params;
@@ -53,6 +58,17 @@ router.get(`/:section/:slug`, async (req, res, next) => {
     DUMMY_SCRIPT.setAttribute('custom-element', 'amp-twitter');
 
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+  }
+
+  if (document.querySelector(IG_SELECTOR)) {
+    amplify(body, IG_SELECTOR, ampInsta);
+    DUMMY_SCRIPT.setAttribute('src', AMP_IG);
+    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-instagram');
+
+    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+
+    // get rid of any embedded IG libs
+    document.querySelectorAll(`script[src*="${IG_LIB}"]`).forEach(node => node.remove());
   }
 
   const locals = {
