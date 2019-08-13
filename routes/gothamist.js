@@ -19,8 +19,12 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   }
 
   const { document } = (new JSDOM(html)).window;
+  const header = document.querySelector('.c-article__header');
+
   const locals = {
     title: document.title,
+    header: header ? header.outerHTML : null,
+    body: header ? header.nextElementSibling.outerHTML : null,
   };
 
   try {
