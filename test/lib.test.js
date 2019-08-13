@@ -61,9 +61,10 @@ describe('amp conversions', function() {
     });
   });
 
-  // describe('galleries', function() {
-  //   it('creates an amp carousel', function() {
-  //
-  //   });
-  // })
+
+  describe.skip('galleries', function() {
+    it('creates an amp carousel', function() {
+
+    });
+  });
 });
