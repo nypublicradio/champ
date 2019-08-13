@@ -47,7 +47,7 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   amplify(header, 'img', ampImg);
   amplify(body, 'img', ampImg);
 
-  if (body && body.querySelector(TWEET_SELECTOR)) {
+  if (document.querySelector(TWEET_SELECTOR)) {
     amplify(body, TWEET_SELECTOR,  ampTweet);
     DUMMY_SCRIPT.setAttribute('src', AMP_TWITTER);
     DUMMY_SCRIPT.setAttribute('custom-element', 'amp-twitter');
