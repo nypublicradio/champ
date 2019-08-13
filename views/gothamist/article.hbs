@@ -2,7 +2,7 @@
 <html ⚡>
   <head>
     <meta charset="utf-8">
-    <link rel="canonical" href="/path/to/this/page.html" />
+    <link rel="canonical" href="{{ meta.canonical }}" />
     <meta name="viewport" content="width=device-width,minimum-scale=1">
 
     {{> gothamist/inline-article-css}}
@@ -13,8 +13,10 @@
     <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
     <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <title>{{ title }}</title>
-    <meta name="description" content="desc">
+
+    <meta name="description" content="{{ meta.description }}">
     <link rel="icon" href="/favicon.png" />
   </head>
   <body class="c-body" id="body">
