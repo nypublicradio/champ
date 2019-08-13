@@ -233,5 +233,5 @@ const ARTICLE_BODY = `
 </article>`;
 
 module.exports = {
-ARTICLE_BODY,
+  ARTICLE_BODY,
 }
