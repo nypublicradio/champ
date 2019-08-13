@@ -4,11 +4,11 @@ const jsdom = require('jsdom');
 const {
   ampImg,
   amplify,
+  makeElement,
 } = require('../lib/amp');
 
 
 const { JSDOM: { fragment } } = jsdom;
-const makeElement = html => fragment(html).firstChild;
 
 describe('amp conversions', function() {
   describe('amplify', function() {
