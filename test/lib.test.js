@@ -14,7 +14,9 @@ describe('amp conversions', function() {
   describe('amplify', function() {
     it('takes a tree, a selector, and an amping function', function() {
       const HTML = `
-        <p>foo</p>
+        <div>
+          <p>foo</p>
+        </div>
         <span>bar</span>
         <p>baz</p>
       `;
@@ -24,7 +26,12 @@ describe('amp conversions', function() {
 
       amplify(tree, 'p', amper);
 
-      let text = tree.textContent.trim().split('\n').map(s => s.trim()).join(' ');
+      let text = tree.textContent
+        .trim()
+        .split('\n')
+        .map(s => s.trim())
+        .filter(s => s)
+        .join(' ');
       expect(text).to.equal('FOO bar BAZ');
       expect(tree.childElementCount).to.equal(3);
     });
