@@ -51,6 +51,7 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   const tags = document.querySelectorAll(TAGS_SELECTOR);
 
   const meta = {
+    canonical: URL,
     headerScripts: [],
   };
 
