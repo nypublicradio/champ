@@ -9,6 +9,7 @@ const {
   ampTweet,
   ampInsta,
   ampYoutube,
+  ampIframe,
   makeElement,
 } = require('../lib/amp');
 
@@ -28,6 +29,7 @@ const DUMMY_SCRIPT = makeElement('<script async />');
 const AMP_TWITTER = 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js';
 const AMP_IG = 'https://cdn.ampproject.org/v0/amp-instagram-0.1.js';
 const AMP_YT = 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js';
+const AMP_IFRAME = 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js';
 
 const IG_LIB = 'instagram.com/embed.js';
 
@@ -79,9 +81,20 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
     DUMMY_SCRIPT.setAttribute('src', AMP_YT);
     DUMMY_SCRIPT.setAttribute('custom-element', 'amp-youtube');
+    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+  }
+
+  // replace any remaining iframes
+  if (document.querySelector('iframe')) {
+    amplify(body, 'iframe', ampIframe);
+    DUMMY_SCRIPT.setAttribute('src', AMP_IFRAME);
+    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-iframe');
 
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
   }
+
+  // strip any errant script tags
+  document.querySelectorAll('body script').forEach(node => node.remove());
 
   const locals = {
     meta,

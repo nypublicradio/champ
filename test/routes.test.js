@@ -118,6 +118,23 @@ describe('article template', function() {
       .end(done);
   });
 
+  it('it strips iframes and errant script tags', function(done) {
+    request(app)
+      .get(`/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const document = getDocument(text);
+
+        expect(document.querySelector('iframe'), 'no iframes at all should remain').not.to.be.ok;
+        expect(document.querySelector('body script'), 'no script tags in the body should remain').not.to.be.ok;
+
+        expect(document.querySelector('script[src*="amp-iframe"]'), 'adds amp iframe script').to.be.ok;
+        expect(document.querySelector('amp-iframe'), 'adds <amp-iframe/> tag').to.be.ok;
+        expect(document.querySelector('amp-iframe').getAttribute('src')).to.equal('http://example.com');
+      })
+      .end(done);
+  })
+
   it('swaps in article content', function(done) {
     request(app)
       .get(`/gothamist${PATH}`)

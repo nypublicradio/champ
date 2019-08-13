@@ -128,6 +128,13 @@ const ARTICLE_BODY = `
 
       <p><iframe width="640" height="360" src="https://www.youtube.com/embed/abcd-1234" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></p>
 
+      <p><iframe src="http://example.com"></iframe></p>
+
+      <center><blockquote class="imgur-embed-pub" lang="en" data-id="mJXCbTB"><a href="//imgur.com/mJXCbTB">So this dog just jumped off a roof in the LES and went through the sunroof of a car parked on the street.</a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script></center>
+
+      <script type="text/javascript">
+        console.log("I'm custom javascript");
+      </script>
     </div>
 
   </div>
