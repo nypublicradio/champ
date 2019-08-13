@@ -18,6 +18,10 @@
 
     <meta name="description" content="{{ meta.description }}">
     <link rel="icon" href="/favicon.png" />
+
+    {{#each meta.headerScripts as |script|}}
+      {{{script}}}
+    {{/each}}
   </head>
   <body class="c-body" id="amp-body">
 

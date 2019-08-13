@@ -69,6 +69,22 @@ describe('article template', function() {
       .end(done);
   });
 
+  it('turns embedded tweets into amp-twitter', function(done) {
+    request(app)
+      .get(`/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const frag = fragment(text);
+
+        expect(frag.querySelector('.twitter-tweet'), 'original tweet should be removed').not.to.be.ok;
+
+        expect(frag.querySelector('script[src*="amp-twitter"]'), 'adds amp twitter script').to.be.ok;
+        expect(frag.querySelector('amp-twitter'), 'adds <amp-twitter/> tag').to.be.ok;
+        expect(frag.querySelector('amp-twitter').dataset.tweetid).to.equal('12345');
+      })
+      .end(done);
+  });
+
   it('swaps in article content', function(done) {
     request(app)
       .get(`/gothamist${PATH}`)

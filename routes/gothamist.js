@@ -5,7 +5,8 @@ const get = require('just-safe-get');
 
 const {
   amplify,
-  ampImg
+  ampImg,
+  ampTweet,
 } = require('../lib/amp');
 
 
@@ -16,6 +17,9 @@ const GOTH_HOST = process.env.GOTHAMIST_HOST;
 const HEADER_SELECTOR = '.c-article__header';
 const BODY_SELECTOR = '.c-article__body';
 const TAGS_SELECTOR = '.o-tags .o-tag';
+const TWEET_SELECTOR = 'blockquote.twitter-tweet';
+
+const AMP_TWITTER = '<script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>'
 
 router.get(`/:section/:slug`, async (req, res, next) => {
   const { section, slug } = req.params;
@@ -34,10 +38,20 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   const body = document.querySelector(BODY_SELECTOR);
   const tags = document.querySelectorAll(TAGS_SELECTOR);
 
+  const meta = {
+    headerScripts: [],
+  };
+
   amplify(header, 'img', ampImg);
   amplify(body, 'img', ampImg);
 
+  if (body && body.querySelector(TWEET_SELECTOR)) {
+    amplify(body, TWEET_SELECTOR,  ampTweet);
+    meta.headerScripts.push(AMP_TWITTER);
+  }
+
   const locals = {
+    meta,
     title: document.title,
     header: get(header, 'outerHTML'),
     body: get(body, 'outerHTML'),

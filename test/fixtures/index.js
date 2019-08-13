@@ -122,6 +122,8 @@ const ARTICLE_BODY = `
       <p></p>
       <p><em>This story is being updated as we receive more information.</em></p>
 
+      <center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">the ultimate pool party for shelter dogs<br>(thepetcollective) <a href="https://t.co/86SBnNdES9">pic.twitter.com/86SBnNdES9</a></p>&mdash; Humor And Animals (@humorandanimals) <a href="https://twitter.com/humorandanimals/status/12345?ref_src=twsrc%5Etfw">August 10, 2019</a></blockquote> </center>
+
     </div>
 
   </div>
