@@ -57,17 +57,17 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
   if (document.querySelector(TWEET_SELECTOR)) {
     amplify(body, TWEET_SELECTOR,  ampTweet);
+
     DUMMY_SCRIPT.setAttribute('src', AMP_TWITTER);
     DUMMY_SCRIPT.setAttribute('custom-element', 'amp-twitter');
-
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
   }
 
   if (document.querySelector(IG_SELECTOR)) {
     amplify(body, IG_SELECTOR, ampInsta);
+
     DUMMY_SCRIPT.setAttribute('src', AMP_IG);
     DUMMY_SCRIPT.setAttribute('custom-element', 'amp-instagram');
-
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
 
     // get rid of any embedded IG libs
@@ -76,6 +76,7 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
   if (document.querySelector(YT_SELECTOR)) {
     amplify(body, YT_SELECTOR,  ampYoutube);
+
     DUMMY_SCRIPT.setAttribute('src', AMP_YT);
     DUMMY_SCRIPT.setAttribute('custom-element', 'amp-youtube');
 
