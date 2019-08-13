@@ -1,13 +1,15 @@
 const request = require('supertest');
 const nock = require('nock');
 const { expect } = require('chai');
-const { JSDOM: { fragment } } = require('jsdom');
+const { JSDOM } = require('jsdom');
 
 const app = require('../src/app');
 const {
   ARTICLE_BODY,
 } = require('./fixtures');
 
+
+const getDocument = text => new JSDOM(text).window.document;
 
 describe('Gothamist route', function() {
   it('returns a 200', function(done) {
@@ -72,13 +74,13 @@ describe('article template', function() {
       .get(`/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
-        const frag = fragment(text);
+        const document = getDocument(text);
 
-        expect(frag.querySelector('.twitter-tweet'), 'original tweet should be removed').not.to.be.ok;
+        expect(document.querySelector('.twitter-tweet'), 'original tweet should be removed').not.to.be.ok;
 
-        expect(frag.querySelector('script[src*="amp-twitter"]'), 'adds amp twitter script').to.be.ok;
-        expect(frag.querySelector('amp-twitter'), 'adds <amp-twitter/> tag').to.be.ok;
-        expect(frag.querySelector('amp-twitter').dataset.tweetid).to.equal('12345');
+        expect(document.querySelector('script[src*="amp-twitter"]'), 'adds amp twitter script').to.be.ok;
+        expect(document.querySelector('amp-twitter'), 'adds <amp-twitter/> tag').to.be.ok;
+        expect(document.querySelector('amp-twitter').dataset.tweetid).to.equal('12345');
       })
       .end(done);
   });
@@ -88,14 +90,14 @@ describe('article template', function() {
       .get(`/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
-        const frag = fragment(text);
+        const document = getDocument(text);
 
-        expect(frag.querySelector('blockquote[class*="instagram"]'), 'original post should be removed').not.to.be.ok;
-        expect(frag.querySelector('script[src*="instagram.com"]'), 'strips embedded instagram library').not.to.be.ok;
+        expect(document.querySelector('blockquote[class*="instagram"]'), 'original post should be removed').not.to.be.ok;
+        expect(document.querySelector('script[src*="instagram.com"]'), 'strips embedded instagram library').not.to.be.ok;
 
-        expect(frag.querySelector('script[src*="amp-instagram"]'), 'adds amp instagram script').to.be.ok;
-        expect(frag.querySelector('amp-instagram'), 'adds <amp-instagram/> tag').to.be.ok;
-        expect(frag.querySelector('amp-instagram').dataset.shortcode).to.equal('12345');
+        expect(document.querySelector('script[src*="amp-instagram"]'), 'adds amp instagram script').to.be.ok;
+        expect(document.querySelector('amp-instagram'), 'adds <amp-instagram/> tag').to.be.ok;
+        expect(document.querySelector('amp-instagram').dataset.shortcode).to.equal('12345');
       })
       .end(done);
   });
@@ -105,13 +107,13 @@ describe('article template', function() {
       .get(`/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
-        const frag = fragment(text);
+        const document = getDocument(text);
 
-        expect(frag.querySelector('iframe[src*="youtube"]'), 'original iframe should be removed').not.to.be.ok;
+        expect(document.querySelector('iframe[src*="youtube"]'), 'original iframe should be removed').not.to.be.ok;
 
-        expect(frag.querySelector('script[src*="amp-youtube"]'), 'adds amp youtube script').to.be.ok;
-        expect(frag.querySelector('amp-youtube'), 'adds <amp-youtube/> tag').to.be.ok;
-        expect(frag.querySelector('amp-youtube').dataset.videoid).to.equal('abcd-1234');
+        expect(document.querySelector('script[src*="amp-youtube"]'), 'adds amp youtube script').to.be.ok;
+        expect(document.querySelector('amp-youtube'), 'adds <amp-youtube/> tag').to.be.ok;
+        expect(document.querySelector('amp-youtube').dataset.videoid).to.equal('abcd-1234');
       })
       .end(done);
   });
@@ -121,8 +123,8 @@ describe('article template', function() {
       .get(`/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
-        const frag = fragment(text);
-        const headline = frag.querySelector('.c-article__headline');
+        const document = getDocument(text);
+        const headline = document.querySelector('.c-article__headline');
 
         expect(headline, 'headline should exist').to.exist;
         expect(headline.textContent.trim()).to.equal('Fixture Article Title');
@@ -135,8 +137,8 @@ describe('article template', function() {
       .get(`/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
-        const frag = fragment(text);
-        const tags = frag.querySelectorAll('#amp-article-tags .o-tag');
+        const document = getDocument(text);
+        const tags = document.querySelectorAll('#amp-article-tags .o-tag');
         const [ tag ] = tags;
 
         expect(tags.length).to.equal(4);
