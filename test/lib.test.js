@@ -28,6 +28,12 @@ describe('amp conversions', function() {
       expect(text).to.equal('FOO bar BAZ');
       expect(tree.childElementCount).to.equal(3);
     });
+
+    it('can handle null inputs', function() {
+      // these should run without throwing
+      amplify(null, null, null);
+      amplify(fragment(), null, null);
+    })
   });
 
   describe('images', function() {
