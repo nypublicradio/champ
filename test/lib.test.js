@@ -1,13 +1,35 @@
 const { expect } = require('chai');
 const jsdom = require('jsdom');
 
-const { ampImg } = require('../lib/amp');
+const {
+  ampImg,
+  amplify,
+} = require('../lib/amp');
 
 
 const { JSDOM: { fragment } } = jsdom;
 const makeElement = html => fragment(html).firstChild;
 
 describe('amp conversions', function() {
+  describe('amplify', function() {
+    it('takes a tree, a selector, and an amping function', function() {
+      const HTML = `
+        <p>foo</p>
+        <span>bar</span>
+        <p>baz</p>
+      `;
+      const tree = fragment(HTML);
+      // comma operator returns right-most value
+      const amper = node => (node.textContent = node.textContent.toUpperCase(), node);
+
+      amplify(tree, 'p', amper);
+
+      let text = tree.textContent.trim().split('\n').map(s => s.trim()).join(' ');
+      expect(text).to.equal('FOO bar BAZ');
+      expect(tree.childElementCount).to.equal(3);
+    });
+  });
+
   describe('images', function() {
     it('converts an img node to an amp-img node', function() {
       const SRC = 'foo.jpg';
