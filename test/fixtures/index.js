@@ -133,23 +133,11 @@ const ARTICLE_BODY = `
       <div class="c-article__tags">
 
         <div id="ember806" class="o-tags ember-view">
-          <a href="/tags/daniel%20pantaleo" id="ember808" class="o-tag ember-view"> #daniel pantaleo
-          </a>
-
-
-          <a href="/tags/eric%20garner" id="ember810" class="o-tag ember-view"> #eric garner
-          </a>
-
-
-          <a href="/tags/nypd" id="ember812" class="o-tag ember-view"> #nypd
-          </a>
-
-
-          <a href="/tags/staten%20island" id="ember814" class="o-tag ember-view"> #staten island
-          </a>
-
+          <a href="/tags/nypd" id="ember812" class="o-tag ember-view"> #nypd</a>
+          <a href="/tags/eric%20garner" id="ember810" class="o-tag ember-view"> #eric garner</a>
+          <a href="/tags/daniel%20pantaleo" id="ember808" class="o-tag ember-view"> #daniel pantaleo</a>
+          <a href="/tags/staten%20island" id="ember814" class="o-tag ember-view"> #staten island</a>
         </div>
-
       </div>
 
       <div class="u-section-spacing">
