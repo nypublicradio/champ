@@ -15,6 +15,7 @@ const GOTH_HOST = process.env.GOTHAMIST_HOST;
 
 const HEADER_SELECTOR = '.c-article__header';
 const BODY_SELECTOR = '.c-article__body';
+const TAGS_SELECTOR = '.o-tags .o-tag';
 
 router.get(`/:section/:slug`, async (req, res, next) => {
   const { section, slug } = req.params;
@@ -28,8 +29,10 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   }
 
   const { document } = (new JSDOM(html)).window;
+
   const header = document.querySelector(HEADER_SELECTOR);
   const body = document.querySelector(BODY_SELECTOR);
+  const tags = document.querySelectorAll(TAGS_SELECTOR);
 
   amplify(header, 'img', ampImg);
   amplify(body, 'img', ampImg);
@@ -38,6 +41,10 @@ router.get(`/:section/:slug`, async (req, res, next) => {
     title: document.title,
     header: get(header, 'outerHTML'),
     body: get(body, 'outerHTML'),
+    tags: Array.from(tags).map(anchor => ({
+      url: anchor.getAttribute('href'),
+      name: anchor.textContent.trim(),
+    })),
   };
 
   try {

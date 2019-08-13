@@ -82,4 +82,20 @@ describe('article template', function() {
       })
       .end(done);
   });
+
+  it('parses tags', function(done) {
+    request(app)
+      .get(`/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const frag = fragment(text);
+        const tags = frag.querySelectorAll('#amp-article-tags .o-tag');
+        const [ tag ] = tags;
+
+        expect(tags.length).to.equal(4);
+        expect(tag.getAttribute('href')).to.equal('/tags/nypd');
+        expect(tag.textContent).to.equal('#nypd');
+      })
+      .end(done);
+  })
 });
