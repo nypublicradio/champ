@@ -149,6 +149,14 @@ const ARTICLE_BODY = `
         <script async="1" defer="1" crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v4.0"></script><div class="fb-video" data-href="video-12345"><blockquote cite="https://www.facebook.com/NowThisNews/videos/374689146762745/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/NowThisNews/videos/374689146762745/">Alexandria Ocasio-Cortez Calls Trump a &#039;Racist&#039; at Shooting Vigil</a><p>‘Whether it’s from misogyny or whether it’s from racism, you’re not more of a man with a gun.’ — AOC called Trump a racist, before speaking directly to young people being radicalized by violent and hateful ideologies (via NowThis Politics)</p>Posted by <a href="https://www.facebook.com/NowThisNews/">NowThis</a> on Tuesday, August 6, 2019</blockquote></div>
       </div>
 
+      <div style="padding-bottom: 56.33802816901409%;" class="responsive-object">
+        <iframe src="https://player.vimeo.com/video/VIMEOID?app_id=122963" width="426" height="240" frameborder="0" title="Fight for Sunlight: Shadow Impact" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      </div>
+
+      <div style="padding-bottom: 56.25%;" class="responsive-object">
+        <iframe width="480" height="270" src="https://www.youtube.com/embed/YOUTUBEID?feature=oembed" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+
     </div>
 
   </div>

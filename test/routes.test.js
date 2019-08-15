@@ -139,6 +139,25 @@ describe('article template', function() {
         expect(document.querySelector('script[src*="amp-youtube"]'), 'adds amp youtube script').to.be.ok;
         expect(document.querySelector('amp-youtube'), 'adds <amp-youtube/> tag').to.be.ok;
         expect(document.querySelector('amp-youtube').dataset.videoid).to.equal('abcd-1234');
+
+        // wagtail-style embed
+        expect(document.querySelectorAll('amp-youtube')[1].dataset.videoid).to.equal('YOUTUBEID');
+      })
+      .end(done);
+  });
+
+  it('turns embedded vimeo videos into amp-vimeo', function(done) {
+    request(app)
+      .get(`/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const document = getDocument(text);
+
+        expect(document.querySelector('iframe[src*="vimeo"]'), 'original iframe should be removed').not.to.be.ok;
+
+        expect(document.querySelector('script[src*="amp-vimeo"]'), 'adds amp vimeo script').to.be.ok;
+        expect(document.querySelector('amp-vimeo'), 'adds <amp-vimeo/> tag').to.be.ok;
+        expect(document.querySelector('amp-vimeo').dataset.videoid).to.equal('VIMEOID');
       })
       .end(done);
   });

@@ -11,6 +11,7 @@ const {
   ampYoutube,
   ampIframe,
   ampFacebook,
+  ampVimeo,
   makeElement,
 } = require('../lib/amp');
 
@@ -25,6 +26,7 @@ const TAGS_SELECTOR = '.o-tags .o-tag';
 const TWEET_SELECTOR = 'blockquote.twitter-tweet';
 const IG_SELECTOR = 'blockquote[class*=instagram]';
 const YT_SELECTOR = 'iframe[src*=youtube]';
+const VIMEO_SELECTOR = 'iframe[src*=vimeo]';
 const FB_SELECTOR = '[class^=fb-]';
 const FB_ROOT = '#fb-root';
 
@@ -34,6 +36,7 @@ const AMP_IG = 'https://cdn.ampproject.org/v0/amp-instagram-0.1.js';
 const AMP_YT = 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js';
 const AMP_FB = 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js';
 const AMP_IFRAME = 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js';
+const AMP_VIMEO = 'https://cdn.ampproject.org/v0/amp-vimeo-0.1.js';
 
 const IG_LIB = 'instagram.com/embed.js';
 const FB_LIB = 'connect.facebook.net';
@@ -106,6 +109,14 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
     DUMMY_SCRIPT.setAttribute('src', AMP_YT);
     DUMMY_SCRIPT.setAttribute('custom-element', 'amp-youtube');
+    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+  }
+
+  if (document.querySelector(VIMEO_SELECTOR)) {
+    amplify(body, VIMEO_SELECTOR,  ampVimeo);
+
+    DUMMY_SCRIPT.setAttribute('src', AMP_VIMEO);
+    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-vimeo');
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
   }
 
