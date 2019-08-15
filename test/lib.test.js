@@ -148,7 +148,7 @@ describe('amp conversions', function() {
   describe('youtube', function() {
     it('converts a youtube iframe into an amp-youtube node', function() {
       const YOUTUBE_ID = 'abcd1234';
-      const IFRAME = makeElement(`<iframe src="${YOUTUBE_ID}" />`);
+      const IFRAME = makeElement(`<iframe src="https://www.youtube.com/embed/${YOUTUBE_ID}?feature=oembed" />`);
 
       const AMP_YT = ampYoutube(IFRAME);
 
