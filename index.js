@@ -2,7 +2,7 @@ require('dotenv').config();
 const debug = require('debug');
 const server = require('./src/app');
 
-if (process.env.NODE_ENV) {
+if (server.get('env')) {
   debug.disable();
 }
 

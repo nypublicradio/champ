@@ -16,7 +16,7 @@ const app = express();
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
-  environment: process.env.NODE_ENV || 'dev',
+  environment: app.get('env'),
 });
 
 if (app.get('env') === 'development') {
