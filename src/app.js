@@ -19,6 +19,10 @@ Sentry.init({
   environment: process.env.NODE_ENV || 'dev',
 });
 
+if (app.get('env') === 'development') {
+  require('./livereload')(app);
+}
+
 // express error handlers require an arity of 4
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
