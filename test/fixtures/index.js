@@ -135,6 +135,20 @@ const ARTICLE_BODY = `
       <script type="text/javascript">
         console.log("I'm custom javascript");
       </script>
+
+      <div>
+        <div id="fb-root"></div>
+        <script async="1" defer="1" crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v4.0"></script><div class="fb-post" data-href="post-12345" data-width="552"><blockquote cite="https://www.facebook.com/OcasioCortez/posts/2329093933847944" class="fb-xfbml-parse-ignore"><p>Here’s what we have to say to all of America’s men and women falling in the grips of hatred and white supremacy:
+
+        Come...</p>Posted by <a href="https://www.facebook.com/OcasioCortez/">Alexandria Ocasio-Cortez</a> on&nbsp;<a href="https://www.facebook.com/OcasioCortez/posts/2329093933847944">Wednesday, August 7, 2019</a></blockquote></div>
+      </div>
+
+
+      <div style="padding-bottom: 100.0%;" class="responsive-object">
+        <div id="fb-root"></div>
+        <script async="1" defer="1" crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v4.0"></script><div class="fb-video" data-href="video-12345"><blockquote cite="https://www.facebook.com/NowThisNews/videos/374689146762745/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/NowThisNews/videos/374689146762745/">Alexandria Ocasio-Cortez Calls Trump a &#039;Racist&#039; at Shooting Vigil</a><p>‘Whether it’s from misogyny or whether it’s from racism, you’re not more of a man with a gun.’ — AOC called Trump a racist, before speaking directly to young people being radicalized by violent and hateful ideologies (via NowThis Politics)</p>Posted by <a href="https://www.facebook.com/NowThisNews/">NowThis</a> on Tuesday, August 6, 2019</blockquote></div>
+      </div>
+
     </div>
 
   </div>

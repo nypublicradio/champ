@@ -85,6 +85,31 @@ describe('article template', function() {
       .end(done);
   });
 
+  it('turns embedded facebook posts and videos into amp-facebook', function(done) {
+    request(app)
+      .get(`/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const document = getDocument(text);
+
+        expect(document.querySelector('[class^=fb]'), 'original facebook embeds should be removed').not.to.be.ok;
+        expect(document.querySelector('#fb-root'), 'original facebook tags should be removed').not.to.be.ok;
+        expect(document.querySelector('script[src*="facebook.net"]'), 'strips embedded facebook library').not.to.be.ok;
+        expect(
+          document.querySelector('.responsive-object').hasAttribute('style'),
+          'should strip responsive object inline styles'
+        ).not.to.be.ok;
+
+        expect(document.querySelector('script[src*="amp-facebook"]'), 'adds amp twitter script').to.be.ok;
+        expect(document.querySelector('amp-facebook'), 'adds <amp-facebook/> tag').to.be.ok;
+        expect(document.querySelector('amp-facebook[data-embed-as="post"]').dataset.href)
+          .to.equal('post-12345');
+        expect(document.querySelector('amp-facebook[data-embed-as="video"]').dataset.href)
+          .to.equal('video-12345');
+      })
+      .end(done);
+  });
+
   it('turns embedded instagram posts into amp-instagram', function(done) {
     request(app)
       .get(`/gothamist${PATH}`)
