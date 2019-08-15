@@ -88,7 +88,6 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
     // get rid of other cruft
     document.querySelectorAll(FB_ROOT).forEach(node => node.remove());
-    document.querySelectorAll('.responsive-object').forEach(node => node.removeAttribute('style'));
   }
 
   if (document.querySelector(IG_SELECTOR)) {
@@ -121,6 +120,8 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
   // strip any errant script tags
   document.querySelectorAll('body script').forEach(node => node.remove());
+  // strip inline styles from "responsive objects"
+  document.querySelectorAll('.responsive-object').forEach(node => node.removeAttribute('style'));
 
   const locals = {
     meta,
