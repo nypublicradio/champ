@@ -8,6 +8,7 @@ const {
   ampInsta,
   ampYoutube,
   ampIframe,
+  ampFacebook,
   makeElement,
 } = require('../lib/amp');
 
@@ -65,6 +66,51 @@ describe('amp conversions', function() {
     });
   });
 
+  describe('facebook posts', function() {
+    it('converts a facebook post into amp-facebook nodes', function() {
+      const URL = 'https://www.facebook.com/OcasioCortez/posts/2329093933847944';
+      const EMBED = makeElement(`
+        <div class="fb-post" data-href="${URL}" data-width="552">
+          <blockquote cite="${URL}" class="fb-xfbml-parse-ignore">
+            <p>
+              “Boys will be boys.”
+
+              Is that also the reason why you’ve chosen to block the Violence Against Women act too, Mitch...
+            </p>
+            Posted by <a href="https://www.facebook.com/OcasioCortez/">Alexandria Ocasio-Cortez</a> on&nbsp;<a href="https://www.facebook.com/OcasioCortez/posts/2328176200606384">Wednesday, August 7, 2019</a>
+          </blockquote>
+        </div>
+      `);
+
+      const AMP_FB_POST = ampFacebook(EMBED);
+
+      expect(AMP_FB_POST.outerHTML).to.match(/<amp-facebook.*><\/amp-facebook>/);
+      expect(AMP_FB_POST.getAttribute('data-href')).to.equal(URL);
+      expect(AMP_FB_POST.getAttribute('data-embed-as')).to.equal('post');
+    });
+
+    it('converts a facebook video into amp-facebook nodes', function() {
+      const URL = 'https://www.facebook.com/NowThisNews/videos/374689146762745/';
+      const EMBED = makeElement(`
+        <div class="fb-video" data-href="${URL}">
+          <blockquote cite="${URL}" class="fb-xfbml-parse-ignore">
+            <a href="${URL}">Alexandria Ocasio-Cortez Calls Trump a &#039;Racist&#039; at Shooting Vigil</a>
+            <p>
+              ‘Whether it’s from misogyny or whether it’s from racism, you’re not more of a man with a gun.’ — AOC called Trump a racist, before speaking directly to young people being radicalized by violent and hateful ideologies (via NowThis Politics)
+            </p>
+            Posted by <a href="https://www.facebook.com/NowThisNews/">NowThis</a> on Tuesday, August 6, 2019
+          </blockquote>
+        </div>
+      `);
+
+      const AMP_FB_POST = ampFacebook(EMBED);
+
+      expect(AMP_FB_POST.outerHTML).to.match(/<amp-facebook.*><\/amp-facebook>/);
+      expect(AMP_FB_POST.getAttribute('data-href')).to.equal(URL);
+      expect(AMP_FB_POST.getAttribute('data-embed-as')).to.equal('video');
+    })
+  });
+
   describe('tweets', function() {
     it('converts a blockquote to an amp-twitter node', function() {
       const TWEET_ID = '12345';
@@ -78,7 +124,6 @@ describe('amp conversions', function() {
       const AMP_TWEET = ampTweet(BLOCKQUOTE);
 
       expect(AMP_TWEET.outerHTML).to.match(/<amp-twitter.*><\/amp-twitter>/);
-
       expect(AMP_TWEET.getAttribute('data-tweetid')).to.equal(TWEET_ID);
     });
   });
