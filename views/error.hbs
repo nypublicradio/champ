@@ -7,6 +7,10 @@
   <title>Error</title>
 </head>
 <body>
-  Server error.
+  {{#if statusCode}}
+    {{statusCode}} error.
+  {{else}}
+    Server error.
+  {{/if}}
 </body>
 </html>

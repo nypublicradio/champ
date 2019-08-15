@@ -30,7 +30,10 @@ const errorHandler = (err, req, res, next) => {
     logger(err);
   }
   res.status(err.statusCode || 500);
-  res.render('error', {layout: false});
+  res.render('error', {
+    statusCode: err.statusCode,
+    layout: false
+  });
 }
 
 app.engine('hbs', engine);
