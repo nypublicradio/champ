@@ -4,7 +4,7 @@
   "description": "Convert HTML A M P",
   "main": "index.js",
   "scripts": {
-    "test": "node -r dotenv/config ./node_modules/mocha/bin/mocha -- dotenv_config_path=.env.sample",
+    "test": "TEST=true node -r dotenv/config ./node_modules/mocha/bin/mocha -- dotenv_config_path=.env.sample",
     "test-dev": "DEBUG=champ:* npm test",
     "start": "DEBUG=champ:* node-dev index",
     "debug": "DEBUG=* node-dev index"
