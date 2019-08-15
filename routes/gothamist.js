@@ -12,6 +12,7 @@ const {
   ampIframe,
   ampFacebook,
   ampVimeo,
+  ampReddit,
   makeElement,
 } = require('../lib/amp');
 
@@ -29,6 +30,7 @@ const YT_SELECTOR = 'iframe[src*=youtube]';
 const VIMEO_SELECTOR = 'iframe[src*=vimeo]';
 const FB_SELECTOR = '[class^=fb-]';
 const FB_ROOT = '#fb-root';
+const REDDIT_SELECTOR = '.reddit-card';
 
 const DUMMY_SCRIPT = makeElement('<script async />');
 const AMP_TWITTER = 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js';
@@ -37,6 +39,7 @@ const AMP_YT = 'https://cdn.ampproject.org/v0/amp-youtube-0.1.js';
 const AMP_FB = 'https://cdn.ampproject.org/v0/amp-facebook-0.1.js';
 const AMP_IFRAME = 'https://cdn.ampproject.org/v0/amp-iframe-0.1.js';
 const AMP_VIMEO = 'https://cdn.ampproject.org/v0/amp-vimeo-0.1.js';
+const AMP_REDDIT = 'https://cdn.ampproject.org/v0/amp-reddit-0.1.js';
 
 const IG_LIB = 'instagram.com/embed.js';
 const FB_LIB = 'connect.facebook.net';
@@ -76,6 +79,14 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
     DUMMY_SCRIPT.setAttribute('src', AMP_TWITTER);
     DUMMY_SCRIPT.setAttribute('custom-element', 'amp-twitter');
+    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+  }
+
+  if (document.querySelector(REDDIT_SELECTOR)) {
+    amplify(body, REDDIT_SELECTOR,  ampReddit);
+
+    DUMMY_SCRIPT.setAttribute('src', AMP_REDDIT);
+    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-reddit');
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
   }
 

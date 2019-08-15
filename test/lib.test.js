@@ -10,6 +10,7 @@ const {
   ampIframe,
   ampFacebook,
   ampVimeo,
+  ampReddit,
   makeElement,
 } = require('../lib/amp');
 
@@ -145,6 +146,27 @@ describe('amp conversions', function() {
     });
   });
 
+  describe('reddit', function() {
+    it('converts a blockquote to an amp-reddit node', function() {
+      const POST_URL = 'http://reddit.com/';
+      const BLOCKQUOTE = makeElement(`
+        <blockquote>
+          <a href="${POST_URL}" target="_blank" rel="noopener">Falcon/hawk? I saw on 86th and 3rd eating what looks to be a pigeon. He did not care at all about all the people around him taking pictures</a>
+          <p>
+            from <a href="http://www.reddit.com/r/nyc" target="_blank" rel="noopener">r/nyc</a>
+          </p>
+        </blockquote>
+      `);
+
+      const AMP_REDDIT = ampReddit(BLOCKQUOTE);
+
+      expect(AMP_REDDIT.outerHTML).to.match(/<amp-reddit.*><\/amp-reddit>/);
+      expect(AMP_REDDIT.getAttribute('data-src')).to.equal(POST_URL);
+      expect(AMP_REDDIT.getAttribute('data-embedtype')).to.equal('post');
+    });
+  });
+
+
   describe('youtube', function() {
     it('converts a youtube iframe into an amp-youtube node', function() {
       const YOUTUBE_ID = 'abcd1234';
@@ -178,9 +200,8 @@ describe('amp conversions', function() {
 
       expect(AMP_IFRAME.outerHTML).to.match(/<amp-iframe.*><\/amp-iframe>/);
       expect(AMP_IFRAME.getAttribute('src')).to.equal(SRC);
-    })
-
-  })
+    });
+  });
 
   describe.skip('galleries', function() {
     it('creates an amp carousel', function() {

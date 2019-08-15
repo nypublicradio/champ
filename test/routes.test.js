@@ -77,6 +77,7 @@ describe('article template', function() {
         const document = getDocument(text);
 
         expect(document.querySelector('.twitter-tweet'), 'original tweet should be removed').not.to.be.ok;
+        expect(document.querySelector('script[src*="twitter.com/widgets.js"]'), 'original twitter library should be removed').not.to.be.ok;
 
         expect(document.querySelector('script[src*="amp-twitter"]'), 'adds amp twitter script').to.be.ok;
         expect(document.querySelector('amp-twitter'), 'adds <amp-twitter/> tag').to.be.ok;
@@ -84,6 +85,24 @@ describe('article template', function() {
       })
       .end(done);
   });
+
+  it('turns embedded reddit posts into amp-reddit', function(done) {
+    request(app)
+      .get(`/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const document = getDocument(text);
+
+        expect(document.querySelector('.reddit-card'), 'original post should be removed').not.to.be.ok;
+        expect(document.querySelector('script[src*="redditmedia.com/widgets/platform.js"]'), 'original reddit library should be removed').not.to.be.ok;
+
+        expect(document.querySelector('script[src*="amp-reddit"]'), 'adds amp reddit script').to.be.ok;
+        expect(document.querySelector('amp-reddit'), 'adds <amp-reddit/> tag').to.be.ok;
+        expect(document.querySelector('amp-reddit').dataset.src).to.equal('http://reddit.com/post');
+      })
+      .end(done);
+  });
+
 
   it('turns embedded facebook posts and videos into amp-facebook', function(done) {
     request(app)

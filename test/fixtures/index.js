@@ -157,6 +157,7 @@ const ARTICLE_BODY = `
         <iframe width="480" height="270" src="https://www.youtube.com/embed/YOUTUBEID?feature=oembed" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
 
+      <center><blockquote class="reddit-card" data-card-created="1565298615" data-rendering="1"><a href="http://reddit.com/post" target="_blank" rel="noopener">Falcon/hawk? I saw on 86th and 3rd eating what looks to be a pigeon. He did not care at all about all the people around him taking pictures</a><p> from <a href="http://www.reddit.com/r/nyc" target="_blank" rel="noopener">r/nyc</a></p></blockquote><script async="" src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script></center>
     </div>
 
   </div>
