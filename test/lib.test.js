@@ -9,6 +9,7 @@ const {
   ampYoutube,
   ampIframe,
   ampFacebook,
+  ampVimeo,
   makeElement,
 } = require('../lib/amp');
 
@@ -153,6 +154,18 @@ describe('amp conversions', function() {
 
       expect(AMP_YT.outerHTML).to.match(/<amp-youtube.*><\/amp-youtube>/);
       expect(AMP_YT.getAttribute('data-videoid')).to.equal(YOUTUBE_ID);
+    });
+  });
+
+  describe('vimeo', function() {
+    it('converts a vimeo iframe into an amp-iframe node', function() {
+      const VIMEO_ID = 'abcd1234';
+      const IFRAME = makeElement(`<iframe src="https://player.vimeo.com/video/${VIMEO_ID}?app_id=122963" />`);
+
+      const AMP_VIMEO = ampVimeo(IFRAME);
+
+      expect(AMP_VIMEO.outerHTML).to.match(/<amp-vimeo.*><\/amp-vimeo>/);
+      expect(AMP_VIMEO.getAttribute('data-videoid')).to.equal(VIMEO_ID);
     });
   });
 
