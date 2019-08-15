@@ -39,7 +39,12 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
   let html
   try {
-    html = await rp(URL);
+    const OPTIONS = {
+      headers: {
+        Accept: 'text/html', // helps with local fastboot requests
+      }
+    }
+    html = await rp(URL, OPTIONS);
   } catch(e) {
     return next(e);
   }
