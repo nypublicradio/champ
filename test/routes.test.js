@@ -27,7 +27,7 @@ describe('Gothamist route', function() {
       `);
 
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(new RegExp(`<title>${TITLE}</title>`))
       .end(done);
@@ -42,7 +42,7 @@ describe('Gothamist route', function() {
       .reply(404);
 
     request(app)
-      .get(`/gothamist${UPSTREAM_PATH}`)
+      .get(`/champ/gothamist${UPSTREAM_PATH}`)
       .expect(404)
       .end(done);
   });
@@ -61,7 +61,7 @@ describe('article template', function() {
 
   it('turns images into amp-images', function(done) {
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(/<amp-img/)
       // no regular images
@@ -71,7 +71,7 @@ describe('article template', function() {
 
   it('turns embedded tweets into amp-twitter', function(done) {
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
         const document = getDocument(text);
@@ -88,7 +88,7 @@ describe('article template', function() {
 
   it('turns embedded reddit posts into amp-reddit', function(done) {
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
         const document = getDocument(text);
@@ -106,7 +106,7 @@ describe('article template', function() {
 
   it('turns embedded facebook posts and videos into amp-facebook', function(done) {
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
         const document = getDocument(text);
@@ -131,7 +131,7 @@ describe('article template', function() {
 
   it('turns embedded instagram posts into amp-instagram', function(done) {
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
         const document = getDocument(text);
@@ -148,7 +148,7 @@ describe('article template', function() {
 
   it('turns embedded youtube videos into amp-youtube', function(done) {
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
         const document = getDocument(text);
@@ -167,7 +167,7 @@ describe('article template', function() {
 
   it('turns embedded vimeo videos into amp-vimeo', function(done) {
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
         const document = getDocument(text);
@@ -183,7 +183,7 @@ describe('article template', function() {
 
   it('it strips iframes and errant script tags', function(done) {
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
         const document = getDocument(text);
@@ -200,7 +200,7 @@ describe('article template', function() {
 
   it('swaps in article content', function(done) {
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
         const document = getDocument(text);
@@ -214,7 +214,7 @@ describe('article template', function() {
 
   it('parses tags', function(done) {
     request(app)
-      .get(`/gothamist${PATH}`)
+      .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(({ text }) => {
         const document = getDocument(text);

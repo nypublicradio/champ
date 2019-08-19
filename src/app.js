@@ -41,7 +41,7 @@ app.engine('hbs', engine);
 app.set('view engine', 'hbs');
 
 app.use(Sentry.Handlers.requestHandler());
-app.use('/gothamist', gothamist);
+app.use('/champ/gothamist', gothamist);
 
 app.use(Sentry.Handlers.errorHandler());
 app.use(errorHandler);
