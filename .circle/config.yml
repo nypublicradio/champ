@@ -1,0 +1,112 @@
+version: 2
+
+defaults: &defaults
+  docker:
+    - image: circleci/node:10
+
+node_key: &node_key
+  key: deps-{{checksum "package.json"}}
+
+get_deps: &get_deps
+  restore_cache:
+    <<: *node_key
+
+do_deploy: &do_deploy
+  steps:
+    - checkout
+    - <<: *get_deps
+    - run:
+        name: deploy envvars
+        command: |
+          env | sed -n "s/^DEPLOY_//p" >> .env
+          env | sed -n "s/^DEPLOY_"$ENV"_//p" >> .env
+    - run:
+        name: run-time envvars
+        command: env | sed -n "s/^"$ENV"_//p" > deploy.env
+    - deploy:
+        command: npx node-lambda deploy -f deploy.env --environment `echo $ENV | tr A-Z a-z`
+
+jobs:
+  install:
+    <<: *defaults
+    steps:
+      - checkout
+      - <<: *get_deps
+      - run:
+          name: Install deps
+          command: |
+            if [ ! -d node_modules ]; then
+              npm i --no-package-lock
+            fi
+      - save_cache:
+          <<: *node_key
+          paths:
+            - node_modules
+
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - <<: *get_deps
+      - run:
+          command: npm test
+
+  deploy_prod:
+    environment:
+      ENV: PROD
+    <<: *defaults
+    <<: *do_deploy
+
+  deploy_demo:
+    environment:
+      ENV: DEMO
+    <<: *defaults
+    <<: *do_deploy
+
+workflows:
+  version: 2
+  just-test:
+    jobs:
+      - install:
+          filters:
+            branches:
+              ignore: master
+      - test:
+          requires:
+            - install
+
+  deploy-demo:
+    jobs:
+      - install:
+          filters:
+            tags:
+              only: demo
+            branches:
+              only: master
+      - test:
+          requires:
+            - install
+      - deploy_demo:
+          requires:
+            - test
+
+  deploy-prod:
+    jobs:
+      - install:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+/
+      - test:
+          filters:
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+/
+          requires:
+            - install
+      - deploy_prod:
+          filters:
+            tags:
+              only: /^v[0-9]+\.[0-9]+\.[0-9]+/
+          requires:
+            - test
