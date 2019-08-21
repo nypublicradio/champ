@@ -3,10 +3,10 @@ const nock = require('nock');
 const { expect } = require('chai');
 const { JSDOM } = require('jsdom');
 
-const app = require('../src/app');
+const app = require('../../src/app');
 const {
   ARTICLE_BODY,
-} = require('./fixtures');
+} = require('../fixtures');
 
 
 const getDocument = text => new JSDOM(text).window.document;
