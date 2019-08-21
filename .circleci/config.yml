@@ -26,6 +26,21 @@ do_deploy: &do_deploy
     - deploy:
         command: npx node-lambda deploy -f deploy.env --environment `echo $ENV | tr A-Z a-z`
 
+prod_filter: &prod_filter
+  filters:
+    branches:
+      ignore: /.*/
+    tags:
+      only: /^v[0-9]+\.[0-9]+\.[0-9]+/
+
+demo_filter: &demo_filter
+  filters:
+    tags:
+      only: demo
+    branches:
+      only: master
+
+
 jobs:
   install:
     <<: *defaults
@@ -78,11 +93,7 @@ workflows:
   deploy-demo:
     jobs:
       - install:
-          filters:
-            tags:
-              only: demo
-            branches:
-              only: master
+          <<: *demo_filter
       - test:
           requires:
             - install
@@ -93,20 +104,12 @@ workflows:
   deploy-prod:
     jobs:
       - install:
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]+/
+          <<: *prod_filter
       - test:
-          filters:
-            tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]+/
+          <<: *prod_filter
           requires:
             - install
       - deploy_prod:
-          filters:
-            tags:
-              only: /^v[0-9]+\.[0-9]+\.[0-9]+/
+          <<: *prod_filter
           requires:
             - test
