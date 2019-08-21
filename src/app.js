@@ -44,6 +44,8 @@ app.set('views', 'src/views')
 app.use(Sentry.Handlers.requestHandler());
 app.use('/champ/gothamist', gothamist);
 
+app.use(express.static('src/static', {index: false}));
+
 app.use(Sentry.Handlers.errorHandler());
 app.use(errorHandler);
 
