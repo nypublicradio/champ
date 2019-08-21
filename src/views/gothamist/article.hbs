@@ -17,7 +17,7 @@
     <title>{{ title }}</title>
 
     <meta name="description" content="{{ meta.description }}">
-    <link rel="icon" href="/gothamist/favicon.png" />
+    <link rel="icon" href="/gothamist/favicon.ico" />
 
     {{#each meta.headerScripts as |script|}}
       {{{script}}}
@@ -41,22 +41,21 @@
               </button>
             </div>
             <div class="c-main-header__branding">
-              <a href="">
+              <a href="https://gothamist.com">
                 {{> svgs/gothamist}}
               </a>
             </div>
           </div>
           <nav class="c-primary-nav c-primary-nav--top" role="navigation" aria-label="Primary navigation">
             <ul>
-              <li class="c-primary-nav__item"><a href="#" class="c-primary-nav__link ">News</a></li>
-              <li class="c-primary-nav__item"><a href="#" class="c-primary-nav__link ">Arts & Entertainment</a></li>
-              <li class="c-primary-nav__item"><a href="#" class="c-primary-nav__link ">Food</a></li>
-              <li class="c-primary-nav__item"><a href="#" class="c-primary-nav__link ">Popular</a></li>
+              <li class="c-primary-nav__item"><a href="https://gothamist.com/news" class="c-primary-nav__link ">News</a></li>
+              <li class="c-primary-nav__item"><a href="https://gothamist.com/arts-entertainment" class="c-primary-nav__link ">Arts & Entertainment</a></li>
+              <li class="c-primary-nav__item"><a href="https://gothamist.com/food" class="c-primary-nav__link ">Food</a></li>
             </ul>
           </nav>
           <div class="c-main-header__right js-this">
-            <a href="" class="o-button c-main-header__donate o-button--sm">Donate</a>
-            <a href="/search" class="c-search-toggle" id="search-toggle">
+            <a href="https://pledge3.wnyc.org/donate/gothamist/onestep/?utm_medium=partnersite&utm_source=gothamist&utm_campaign=ampheader" class="o-button c-main-header__donate o-button--sm">Donate</a>
+            <a href="https://gothamist.com/search" class="c-search-toggle" id="search-toggle">
               <span class="c-search-toggle__icon o-icon o-icon--search u-icon--xs">
                 {{> svgs/search-icon}}
               </span>
@@ -86,7 +85,7 @@
                 <div class="u-section-spacing">
                   <div class="c-article__contact">
                     <div class="c-contact-tout o-rte-text u-reversed-out">
-                      <p><strong>Do you know the scoop?</strong> &nbsp; <a href="">Comment</a> below or <a href="">Send us a Tip</a></p>
+                      <p><strong>Do you know the scoop?</strong> &nbsp; <a href="{{meta.canonical}}#comments">Comment</a> below or <a href="mailto:tips@gothamist.com">Send us a Tip</a></p>
                     </div>
                   </div>
                   <a href="{{meta.canonical}}#comments" class="o-button o-button--c-quaternary u-full-width">View Comments</a>
@@ -97,7 +96,7 @@
                           {{> svgs/finger}}
                         </div>
                         <p>Gothamist is non-profit local news. We rely on reader support. We need YOU so we can keep telling New York stories.</p>
-                        <a href="" class="o-button ">Donate Now</a>
+                        <a href="https://pledge3.wnyc.org/donate/gothamist/onestep?utm_medium=partnersite&utm_source=gothamist&utm_campaign=amparticledonationask" class="o-button ">Donate Now</a>
                       </div>
                     </div>
                   </div>
@@ -106,7 +105,7 @@
             </div>
             <div class="l-container l-container--14col">
               <section class="c-block-group c-block-group--offset o-section">
-                <div class="c-block-group__col1 u-spacing--and-half">
+                <div class="c-block-group__col1 u-spacing--and-half" id="recent-stories">
                   <h2 class="o-section__heading o-bg-text-accent">Recent Stories</h2>
                   <div class="c-block-list ">
                     <ul class="u-spacing--and-half">
@@ -122,7 +121,7 @@
                     </ul>
                   </div>
                 </div>
-                <div class="c-block-group__col2 u-spacing--and-half">
+                <div class="c-block-group__col2 u-spacing--and-half" id="featured-story">
                   <h2 class="o-section__heading o-bg-text-accent">Featured Story</h2>
                   {{#if featured}}
                     {{>
@@ -150,27 +149,27 @@
             <div class="c-main-footer__col1 u-spacing--triple">
               <div class="c-main-footer__branding">
                 <div class="c-main-footer__logo">
-                  <a href="">
+                  <a href="https://gothamist.com">
                     {{> svgs/gothamist-stacked}}
                   </a>
                 </div>
                 <div class="c-main-footer__utility">
-                  <a href="" class="c-main-footer__send-story u-font--secondary-style u-font--xs"><strong>Send Us a Story Idea</strong></a>
+                  <a href="mailto:tips@gothamist.com" class="c-main-footer__send-story u-font--secondary-style u-font--xs"><strong>Send Us a Story Idea</strong></a>
                   <div class="c-main-footer__social">
                     <div class="c-share-tools ">
                       <span class="c-share-tools__label u-font--secondary-style u-font--xs u-color--white">Follow Us</span>
                       <div class="c-share-tools__group">
-                        <a href="" class="c-share-tools__link o-icon">
+                        <a href="https://www.facebook.com/Gothamist" class="c-share-tools__link o-icon">
                           {{> svgs/facebook}}
                         </a>
-                        <a href="" class="c-share-tools__link o-icon">
+                        <a href="https://twitter.com/gothamist" class="c-share-tools__link o-icon">
                           {{> svgs/twitter}}
                         </a>
-                        <a href="" class="c-share-tools__link o-icon">
-                          {{> svgs/reddit}}
+                        <a href="https://www.instagram.com/Gothamist" class="c-share-tools__link o-icon">
+                          {{> svgs/instagram}}
                         </a>
-                        <a href="" class="c-share-tools__link o-icon">
-                          {{> svgs/email}}
+                        <a href="https://www.youtube.com/channel/UCY_2VeS5Q9_sMZRhtvF0c5Q" class="c-share-tools__link o-icon">
+                          {{> svgs/youtube}}
                         </a>
                       </div>
                     </div>
@@ -183,11 +182,11 @@
               <div class="c-main-footer__nav">
                 <nav class="c-secondary-nav" role="navigation" aria-label="Secondary navigation">
                   <ul class="c-secondary-nav__list">
-                    <li class="c-secondary-nav__item"><a class="c-secondary-nav__link u-font--secondary-style u-font--xs u-color--white u-has-accent u-has-accent--white" href="#">Advertising</a></li>
-                    <li class="c-secondary-nav__item"><a class="c-secondary-nav__link u-font--secondary-style u-font--xs u-color--white u-has-accent u-has-accent--white" href="#">Contact Us</a></li>
-                    <li class="c-secondary-nav__item"><a class="c-secondary-nav__link u-font--secondary-style u-font--xs u-color--white u-has-accent u-has-accent--white" href="#">Newsletter</a></li>
-                    <li class="c-secondary-nav__item"><a class="c-secondary-nav__link u-font--secondary-style u-font--xs u-color--white u-has-accent u-has-accent--white" href="#">RSS Feed</a></li>
-                    <li class="c-secondary-nav__item"><a class="c-secondary-nav__link u-font--secondary-style u-font--xs u-color--white u-has-accent u-has-accent--white" href="#">Staff</a></li>
+                    <li class="c-secondary-nav__item"><a class="c-secondary-nav__link u-font--secondary-style u-font--xs u-color--white u-has-accent u-has-accent--white" href="https://www.gothamistllc.com">Advertising</a></li>
+                    <li class="c-secondary-nav__item"><a class="c-secondary-nav__link u-font--secondary-style u-font--xs u-color--white u-has-accent u-has-accent--white" href="https://gothamist.com/contact">Contact Us</a></li>
+                    <li class="c-secondary-nav__item"><a class="c-secondary-nav__link u-font--secondary-style u-font--xs u-color--white u-has-accent u-has-accent--white" href="https://wnyc.us5.list-manage.com/subscribe?u=4109fdd323aaac7078eadaa8f&id=65dbec786b">Newsletter</a></li>
+                    <li class="c-secondary-nav__item"><a class="c-secondary-nav__link u-font--secondary-style u-font--xs u-color--white u-has-accent u-has-accent--white" href="https://feeds.gothamistllc.com/gothamist05">RSS Feed</a></li>
+                    <li class="c-secondary-nav__item"><a class="c-secondary-nav__link u-font--secondary-style u-font--xs u-color--white u-has-accent u-has-accent--white" href="https://gothamist.com/staff">Staff</a></li>
                   </ul>
                 </nav>
               </div>
@@ -248,12 +247,12 @@
               <div class="c-toggle-box__content">
                 <nav class="c-nypr-nav" role="navigation" aria-label="NYPR brands navigation">
                   <ul class="c-nypr-nav__list">
-                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="#">WNYC</a></li>
-                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="#">New Sounds</a></li>
-                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="#">Gothamist</a></li>
-                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="#">NJPR</a></li>
-                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="#">WNYC Studios</a></li>
-                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="#">The Greene Space</a></li>
+                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="https://www.wnyc.org">WNYC</a></li>
+                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="https://www.newsounds.org">New Sounds</a></li>
+                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="https://gothamist.com">Gothamist</a></li>
+                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="https://www.njpublicradio.org">NJPR</a></li>
+                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="https://www.wnycstudios.org">WNYC Studios</a></li>
+                    <li class="c-nypr-nav__item"><a class="c-nypr-nav__link u-has-accent u-has-accent--secondary" href="https://www.thegreenespace.org">The Greene Space</a></li>
                   </ul>
                 </nav>
               </div>
@@ -264,8 +263,8 @@
               <p class="u-font--secondary-style u-font--xs u-color--white">&copy; 2019 New York Public Radio. All rights reserved.</p>
             </div>
             <div class="c-main-footer__terms-links">
-              <a href="" class="u-font--secondary-style u-font--xs"><strong>Terms of Use</strong></a>
-              <a href="" class="u-font--secondary-style u-font--xs"><strong>Privacy Policy</strong></a>
+              <a href="https://www.wnyc.org/terms" class="u-font--secondary-style u-font--xs"><strong>Terms of Use</strong></a>
+              <a href="https://www.wnyc.org/privacy" class="u-font--secondary-style u-font--xs"><strong>Privacy Policy</strong></a>
             </div>
           </div>
         </div>
