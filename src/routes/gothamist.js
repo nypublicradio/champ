@@ -20,6 +20,8 @@ const {
 const { JSDOM } = jsdom;
 const router = express.Router();
 const GOTH_HOST = process.env.GOTHAMIST_HOST;
+const NEWSLETTER_ENDPOINT = `${process.env.API_SERVER}/opt-in/v1/subscribe/mailchimp`;
+const NEWSLETTER_ID = '65dbec786b';
 
 const HEADER_SELECTOR = '.c-article__header';
 const BODY_SELECTOR = '.c-article__body';
@@ -161,6 +163,9 @@ router.get(`/:section/:slug`, async (req, res, next) => {
       url: anchor.getAttribute('href'),
       name: anchor.textContent.trim(),
     })),
+
+    NEWSLETTER_ENDPOINT,
+    NEWSLETTER_ID,
   };
 
   try {

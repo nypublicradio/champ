@@ -192,9 +192,14 @@
                 </nav>
               </div>
             </div>
-            <div class="c-main-footer__col2">
+            {{!-- <div class="c-main-footer__col2">
               <div class="c-main-footer__signup">
-                <form method="get" target="_top" class="c-newsletter-form" action="/">
+                <form
+                  class="c-newsletter-form"
+                  target="_top"
+                  method="post"
+                  action-xhr="{{NEWSLETTER_ENDPOINT}}"
+                >
                   <div class="c-newsletter-form__graphic">
                     {{> svgs/confetti}}
                   </div>
@@ -209,7 +214,8 @@
                     </div>
                     <div class="c-newsletter-form__field-group">
                       <label for="newsletter" class="is-vishidden">Newsletter signup</label>
-                      <input required name="newsletter" type="email" class="c-newsletter-form__input" placeholder="your@email.com">
+                      <input type="hidden" value="{{NEWSLETTER_ID}}" name="list"/>
+                      <input required name="email" type="email" class="c-newsletter-form__input" placeholder="your@email.com">
                       <button type="submit" class="o-button o-button--c-quaternary c-newsletter-form__button">
                         <span class="c-newsletter-form__submit-icon o-icon o-icon--newsletter-form">
                           {{> svgs/dashed-arrow}}
@@ -226,7 +232,7 @@
                   </div>
                 </form>
               </div>
-            </div>
+            </div> --}}
           </div>
           <div class="c-main-footer__brand-group">
             <div class="c-main-footer__nypr-logo">
