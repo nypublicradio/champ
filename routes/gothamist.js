@@ -74,6 +74,13 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   amplify(header, 'img', ampImg);
   amplify(body, 'img', ampImg);
 
+  document.querySelectorAll('picture').forEach(picture => {
+    while(picture.firstChild) {
+      picture.parentNode.insertBefore(picture.firstChild, picture);
+    }
+    picture.parentNode.removeChild(picture);
+  });
+
   if (document.querySelector(TWEET_SELECTOR)) {
     amplify(body, TWEET_SELECTOR,  ampTweet);
 

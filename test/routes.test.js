@@ -226,5 +226,17 @@ describe('article template', function() {
         expect(tag.textContent).to.equal('#nypd');
       })
       .end(done);
-  })
+  });
+
+  it('strips `picture` tags', function(done) {
+    request(app)
+      .get(`/champ/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const document = getDocument(text);
+        const tags = document.querySelectorAll('picture');
+        expect(tags.length).to.equal(0);
+      })
+      .end(done);
+  });
 });
