@@ -2,7 +2,7 @@ const { expect } = require('chai');
 
 const {
   iif
-} = require('../views/helpers');
+} = require('../src/views/helpers');
 
 
 describe('helpers', function() {

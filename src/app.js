@@ -5,8 +5,8 @@ const express = require('express');
 const hbs = require('express-handlebars');
 const Sentry = require('@sentry/node');
 
-const helpers = require('../views/helpers');
-const gothamist = require('../routes/gothamist');
+const helpers = require('./views/helpers');
+const gothamist = require('./routes/gothamist');
 
 const engine = hbs({
   extname: 'hbs',
@@ -39,6 +39,7 @@ const errorHandler = (err, req, res, next) => {
 app.engine('hbs', engine);
 
 app.set('view engine', 'hbs');
+app.set('views', 'src/views')
 
 app.use(Sentry.Handlers.requestHandler());
 app.use('/champ/gothamist', gothamist);

@@ -12,7 +12,7 @@ const {
   ampVimeo,
   ampReddit,
   makeElement,
-} = require('../lib/amp');
+} = require('../src/lib/amp');
 
 
 const { JSDOM: { fragment } } = jsdom;
