@@ -66,9 +66,9 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   const qs = selector => document.querySelector(selector);
   const qsa = selector => document.querySelectorAll(selector);
 
-  const header = document.querySelector(HEADER_SELECTOR);
-  const body = document.querySelector(BODY_SELECTOR);
-  const tags = document.querySelectorAll(TAGS_SELECTOR);
+  const header = qs(HEADER_SELECTOR);
+  const body = qs(BODY_SELECTOR);
+  const tags = qsa(TAGS_SELECTOR);
 
   const meta = {
     canonical: URL,
@@ -78,14 +78,14 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   amplify(header, 'img', ampImg);
   amplify(body, 'img', ampImg);
 
-  document.querySelectorAll('picture').forEach(picture => {
+  qsa('picture').forEach(picture => {
     while(picture.firstChild) {
       picture.parentNode.insertBefore(picture.firstChild, picture);
     }
     picture.parentNode.removeChild(picture);
   });
 
-  if (document.querySelector(TWEET_SELECTOR)) {
+  if (qs(TWEET_SELECTOR)) {
     amplify(body, TWEET_SELECTOR,  ampTweet);
 
     DUMMY_SCRIPT.setAttribute('src', AMP_TWITTER);
@@ -93,7 +93,7 @@ router.get(`/:section/:slug`, async (req, res, next) => {
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
   }
 
-  if (document.querySelector(REDDIT_SELECTOR)) {
+  if (qs(REDDIT_SELECTOR)) {
     amplify(body, REDDIT_SELECTOR,  ampReddit);
 
     DUMMY_SCRIPT.setAttribute('src', AMP_REDDIT);
@@ -101,7 +101,7 @@ router.get(`/:section/:slug`, async (req, res, next) => {
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
   }
 
-  if (document.querySelector(FB_SELECTOR)) {
+  if (qs(FB_SELECTOR)) {
     amplify(body, FB_SELECTOR, ampFacebook);
 
     DUMMY_SCRIPT.setAttribute('src', AMP_FB);
@@ -109,13 +109,13 @@ router.get(`/:section/:slug`, async (req, res, next) => {
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
 
     // get rid of embedded facebook scripts
-    document.querySelectorAll(`script[src*="${FB_LIB}"]`).forEach(node => node.remove());
+    qsa(`script[src*="${FB_LIB}"]`).forEach(node => node.remove());
 
     // get rid of other cruft
-    document.querySelectorAll(FB_ROOT).forEach(node => node.remove());
+    qsa(FB_ROOT).forEach(node => node.remove());
   }
 
-  if (document.querySelector(IG_SELECTOR)) {
+  if (qs(IG_SELECTOR)) {
     amplify(body, IG_SELECTOR, ampInsta);
 
     DUMMY_SCRIPT.setAttribute('src', AMP_IG);
@@ -123,10 +123,10 @@ router.get(`/:section/:slug`, async (req, res, next) => {
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
 
     // get rid of any embedded IG libs
-    document.querySelectorAll(`script[src*="${IG_LIB}"]`).forEach(node => node.remove());
+    qsa(`script[src*="${IG_LIB}"]`).forEach(node => node.remove());
   }
 
-  if (document.querySelector(YT_SELECTOR)) {
+  if (qs(YT_SELECTOR)) {
     amplify(body, YT_SELECTOR,  ampYoutube);
 
     DUMMY_SCRIPT.setAttribute('src', AMP_YT);
@@ -134,7 +134,7 @@ router.get(`/:section/:slug`, async (req, res, next) => {
     meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
   }
 
-  if (document.querySelector(VIMEO_SELECTOR)) {
+  if (qs(VIMEO_SELECTOR)) {
     amplify(body, VIMEO_SELECTOR,  ampVimeo);
 
     DUMMY_SCRIPT.setAttribute('src', AMP_VIMEO);
@@ -143,7 +143,7 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   }
 
   // replace any remaining iframes
-  if (document.querySelector('iframe')) {
+  if (qs('iframe')) {
     amplify(body, 'iframe', ampIframe);
     DUMMY_SCRIPT.setAttribute('src', AMP_IFRAME);
     DUMMY_SCRIPT.setAttribute('custom-element', 'amp-iframe');
@@ -152,9 +152,9 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   }
 
   // strip any errant script tags
-  document.querySelectorAll('body script').forEach(node => node.remove());
+  qsa('body script').forEach(node => node.remove());
   // strip inline styles from "responsive objects"
-  document.querySelectorAll('.responsive-object').forEach(node => node.removeAttribute('style'));
+  qsa('.responsive-object').forEach(node => node.removeAttribute('style'));
 
   const locals = {
     meta,
