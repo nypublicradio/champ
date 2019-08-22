@@ -48,9 +48,9 @@ const AMP_REDDIT = 'https://cdn.ampproject.org/v0/amp-reddit-0.1.js';
 const IG_LIB = 'instagram.com/embed.js';
 const FB_LIB = 'connect.facebook.net';
 
-router.get(`/:section/:slug`, async (req, res, next) => {
-  const { section, slug } = req.params;
-  const URL = `${GOTH_HOST}/${section}/${slug}`;
+router.get(`/:section_slug/:slug`, async (req, res, next) => {
+  const { section_slug, slug } = req.params;
+  const URL = `${GOTH_HOST}/${section_slug}/${slug}`;
 
   let html, articleJSON;
   try {
