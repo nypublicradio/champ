@@ -105,10 +105,10 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
 
     qsa('.c-lead-gallery__thumbs-thumb').forEach(node => node.remove());
 
+    link.href = url;
     link.className = viewAllButton.className;
     link.innerHTML = viewAllButton.innerHTML;
     link.append(document.createTextNode('photos'));
-    link.href = url;
 
     qs('.c-lead-gallery__thumbs').appendChild(link);
   }
