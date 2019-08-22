@@ -2,7 +2,7 @@
   <div class="c-block__media">
     <a href="{{article.url}}">
       <amp-img
-        src="{{article.thumbnail.src}}"
+        src="{{wagtailImage article.thumbnail 150 150}}"
         itemprop="image"
         width="150"
         height="150"
@@ -12,9 +12,11 @@
     </a>
   </div>
   <div class="c-block__object u-spacing--half">
-    <div class="c-block__eyebrow">
-      <a href="{{article.section.url}}" class="o-kicker">{{article.section.title}}</a>
-    </div>
+    {{#unless hideEyebrow}}
+      <div class="c-block__eyebrow">
+        <a href="{{article.section.url}}" class="o-kicker">{{article.section.title}}</a>
+      </div>
+    {{/unless}}
     <h3 class="c-block__title">
       <a class="c-block__title-link" href="{{article.url}}">
         {{article.title}}
@@ -24,14 +26,16 @@
       {{#if showDek}}
         <div class="c-block__dek o-rte-text">
           <p>
-            {{{article.dek}}}
+            {{{article.description}}}
           </p>
         </div>
       {{/if}}
       <div class="c-block-meta u-color--meta">
-        <span class="c-block-meta__author u-font--secondary-style u-font--xs">
-          {{article.author.name}}
-        </span>
+        {{#unless hideAuthor}}
+          <span class="c-block-meta__author u-font--secondary-style u-font--xs">
+            {{article.authors.[0].name}}
+          </span>
+        {{/unless}}
         <a href="{{article.url}}#comments" class="c-block-meta__comments u-font--secondary-style u-font--xs">
           <span class="o-icon o-icon--comment u-icon--xs">
             {{> svgs/comment}}
