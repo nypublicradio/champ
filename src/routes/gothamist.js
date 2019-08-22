@@ -63,6 +63,8 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   }
 
   const { document } = (new JSDOM(html)).window;
+  const qs = selector => document.querySelector(selector);
+  const qsa = selector => document.querySelectorAll(selector);
 
   const header = document.querySelector(HEADER_SELECTOR);
   const body = document.querySelector(BODY_SELECTOR);
