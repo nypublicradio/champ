@@ -48,6 +48,9 @@ const AMP_REDDIT = 'https://cdn.ampproject.org/v0/amp-reddit-0.1.js';
 const IG_LIB = 'instagram.com/embed.js';
 const FB_LIB = 'connect.facebook.net';
 
+const dedupe = (needle, haystack) => haystack.filter(item =>
+  item.id !== needle.id);
+
 router.get(`/:section_slug/:slug`, async (req, res, next) => {
   const { section_slug, slug } = req.params;
   const URL = `${GOTH_HOST}/${section_slug}/${slug}`;
@@ -184,6 +187,37 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
   // strip inline styles from "responsive objects"
   qsa('.responsive-object').forEach(node => node.removeAttribute('style'));
 
+  const section = wagtail.getSection(articleJSON);
+  const PARAMS = {
+    type: 'news.ArticlePage',
+    fields: '*',
+    order: '-publication_date',
+    show_on_index_listing: true,
+    descendant_of: section.id,
+  };
+  let [ {items:recent = []}, {items:featured = []} ] = await Promise.all([
+    wagtail.query({...PARAMS, limit: 4}),
+    wagtail.query({...PARAMS, limit: 5, show_as_feature: true}),
+  ]);
+
+  recent = dedupe(articleJSON, recent);
+  featured = dedupe(articleJSON, featured);
+  recent.forEach(a => featured = dedupe(a, featured));
+
+  // query returns an array
+  // only need the first featured item
+  [ featured ] = featured;
+  if (featured) {
+    featured.thumbnail = wagtail.getThumb(featured);
+    featured.section = wagtail.getSection(featured);
+    featured.authors = wagtail.getAuthors(featured);
+  }
+  recent.forEach(recent => {
+    recent.thumbnail = wagtail.getThumb(recent)
+    recent.section = wagtail.getSection(recent)
+    recent.authors = wagtail.getAuthors(recent);
+  });
+
   const locals = {
     meta,
     title: document.title,
@@ -194,10 +228,15 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
       name: anchor.textContent.trim(),
     })),
 
+    section,
+
     NEWSLETTER_ENDPOINT,
     NEWSLETTER_ID,
 
     year: new Date().getFullYear(), // for copyright
+
+    recent,
+    featured,
   };
 
   try {
