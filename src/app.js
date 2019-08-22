@@ -7,10 +7,14 @@ const Sentry = require('@sentry/node');
 
 const helpers = require('./views/helpers');
 const gothamist = require('./routes/gothamist');
+const { wagtailImage } = require('./lib/wagtail');
 
 const engine = hbs({
   extname: 'hbs',
-  helpers,
+  helpers: {
+    ...helpers,
+    wagtailImage,
+  },
 });
 const app = express();
 
