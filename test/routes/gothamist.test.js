@@ -240,3 +240,82 @@ describe('amp conversions', function() {
       .end(done);
   });
 });
+
+describe('other template areas', function() {
+
+  it('pulls in related articles', function(done) {
+    const NEWS_SLUG = 'news';
+    const ARTICLE_PATH = `/${NEWS_SLUG}/foo`;
+    const NEWS_SECTION = 5;
+    const RECENT_LIMIT = 4;
+    const FEATURED_LIMIT = 5;
+
+    const API_PATH = '/api/v2/pages';
+
+    const PARAMS = {
+      type: 'news.ArticlePage',
+      fields: '*',
+      order: '-publication_date',
+      show_on_index_listing: true,
+      descendant_of: NEWS_SECTION,
+    };
+
+    // article's section
+    nock(process.env.CMS_SERVER)
+      .get(`${API_PATH}/find`)
+      .query({html_path: NEWS_SLUG})
+      .reply({
+        id: NEWS_SECTION,
+      });
+
+    // recent articles
+    nock(process.env.CMS_SERVER)
+      .get(API_PATH)
+      .query({
+        ...PARAMS,
+        limit: RECENT_LIMIT,
+      })
+      .reply({
+        items: new Array(RECENT_LIMIT).fill().map((_el, i) => ({
+          id: i,
+          title: `Recent ${i + 1}`
+        }))
+      });
+
+    // featured articles
+    nock(process.env.CMS_SERVER)
+      .get(API_PATH)
+      .query({
+        ...PARAMS,
+        limit: FEATURED_LIMIT,
+        show_as_feature: true,
+      })
+      .reply({
+        items: new Array(FEATURED_LIMIT).fill().map((_el, i) => ({
+          id: i,
+          title: `${i <= RECENT_LIMIT ? 'Recent' : 'Featured'} ${i + 1}`
+        }))
+      });
+
+    // article
+    nock(process.env.GOTHAMIST_HOST)
+      .get(ARTICLE_PATH)
+      .query(true)
+      .reply(200, ARTICLE_BODY);
+
+    request(app)
+      .get(`/champ/gothamist${ARTICLE_PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const document = getDocument(text);
+        const recent = document.querySelector('#recent-stories');
+        const featured = document.querySelector('#featured-story');
+
+        expect(recent.querySelector('li:nth-child(1) .c-block__title').textContent).to.be.equal('Recent 1');
+        expect(recent.querySelector('li:nth-child(2) .c-block__title').textContent).to.be.equal('Recent 2');
+        expect(recent.querySelector('li:nth-child(3) .c-block__title').textContent).to.be.equal('Recent 3');
+        expect(featured.querySelector('.c-block__title').textContent).to.be.equal('Featured 4');
+      })
+      .end(done);
+  })
+});
