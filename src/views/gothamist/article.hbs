@@ -106,15 +106,16 @@
             <div class="l-container l-container--14col">
               <section class="c-block-group c-block-group--offset o-section">
                 <div class="c-block-group__col1 u-spacing--and-half" id="recent-stories">
-                  <h2 class="o-section__heading o-bg-text-accent">Recent Stories</h2>
+                  <h2 class="o-section__heading o-bg-text-accent">Recent in {{section.title}}</h2>
                   <div class="c-block-list ">
                     <ul class="u-spacing--and-half">
-                      {{#each related}}
+                      {{#each recent}}
                         <li>
                           {{>
                             gothamist/article-block
                             article=.
                             horizontal=true
+                            hideEyebrow=true
                           }}
                         </li>
                       {{/each}}
@@ -122,11 +123,12 @@
                   </div>
                 </div>
                 <div class="c-block-group__col2 u-spacing--and-half" id="featured-story">
-                  <h2 class="o-section__heading o-bg-text-accent">Featured Story</h2>
+                  <h2 class="o-section__heading o-bg-text-accent">Featured in {{section.title}}</h2>
                   {{#if featured}}
                     {{>
                       gothamist/article-block
                       article=featured
+                      hideEyebrow=true
                       showDek=true
                     }}
                   {{/if}}
