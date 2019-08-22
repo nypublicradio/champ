@@ -4,6 +4,7 @@ const { expect } = require('chai');
 const { JSDOM } = require('jsdom');
 
 const app = require('../../src/app');
+const wagtail = require('../../src/lib/wagtail');
 const {
   ARTICLE_BODY,
 } = require('../fixtures');
@@ -15,6 +16,7 @@ describe('Gothamist route', function() {
   it('returns a 200', function(done) {
     const TITLE = 'FOO BAR - Gothamist';
     const PATH = '/foo/bar';
+
     nock(process.env.GOTHAMIST_HOST)
       .get(PATH)
       .query(true)
@@ -26,11 +28,26 @@ describe('Gothamist route', function() {
         </html>
       `);
 
+    nock(process.env.CMS_SERVER)
+      .get('/api/v2/pages')
+      .query(true)
+      .reply(200, {items: []})
+      .persist();
+
+    nock(process.env.CMS_SERVER)
+      .get('/api/v2/pages/find')
+      .query(true)
+      .reply(200, {})
+      .persist();
+
     request(app)
       .get(`/champ/gothamist${PATH}`)
       .expect(200)
       .expect(new RegExp(`<title>${TITLE}</title>`))
-      .end(done);
+      .end(() => {
+        nock.cleanAll();
+        done();
+      });
   });
 
   it('if the upstream returns a 404, so does the app', function(done) {
@@ -57,6 +74,22 @@ describe('amp conversions', function() {
       .get(PATH)
       .query(true)
       .reply(200, ARTICLE_BODY);
+
+    nock(process.env.CMS_SERVER)
+      .get('/api/v2/pages')
+      .query(true)
+      .reply(200, {items: []})
+      .persist();
+
+    nock(process.env.CMS_SERVER)
+      .get('/api/v2/pages/find')
+      .query(true)
+      .reply(200, {})
+      .persist();
+  });
+
+  afterEach(() => {
+    nock.cleanAll();
   });
 
   it('turns images into amp-images', function(done) {
