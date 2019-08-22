@@ -1,5 +1,5 @@
 const express = require('express');
-const rp = require('request-promise-native');
+const request = require('request-promise-native');
 const jsdom = require('jsdom');
 const get = require('just-safe-get');
 
@@ -15,6 +15,8 @@ const {
   ampReddit,
   makeElement,
 } = require('../lib/amp');
+
+const wagtail = require('../lib/wagtail');
 
 
 const { JSDOM } = jsdom;
@@ -50,14 +52,17 @@ router.get(`/:section/:slug`, async (req, res, next) => {
   const { section, slug } = req.params;
   const URL = `${GOTH_HOST}/${section}/${slug}`;
 
-  let html
+  let html, articleJSON;
   try {
     const OPTIONS = {
       headers: {
         Accept: 'text/html', // helps with local fastboot requests
       }
-    }
-    html = await rp(URL, OPTIONS);
+    };
+    [ html, articleJSON ] = await Promise.all([
+      request(URL, OPTIONS),
+      wagtail.byPath(`${section_slug}/${slug}`),
+    ]);
   } catch(e) {
     return next(e);
   }
