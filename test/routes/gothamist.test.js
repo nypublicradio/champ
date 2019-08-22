@@ -48,7 +48,7 @@ describe('Gothamist route', function() {
   });
 });
 
-describe('article template', function() {
+describe('amp conversions', function() {
 
   const PATH = '/foo/bar';
 
