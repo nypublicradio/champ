@@ -166,6 +166,8 @@ router.get(`/:section/:slug`, async (req, res, next) => {
 
     NEWSLETTER_ENDPOINT,
     NEWSLETTER_ID,
+
+    year: new Date().getFullYear(), // for copyright
   };
 
   try {
