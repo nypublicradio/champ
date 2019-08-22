@@ -85,6 +85,12 @@ router.get(`/:section/:slug`, async (req, res, next) => {
     picture.parentNode.removeChild(picture);
   });
 
+  if (qs('.c-article__lead amp-img')) {
+    qs('.c-article__lead amp-img').setAttribute('height', '1');
+    qs('.c-article__lead amp-img').setAttribute('width', '1.33');
+    qs('.c-article__lead amp-img').setAttribute('layout', 'responsive');
+  }
+
   if (qs(TWEET_SELECTOR)) {
     amplify(body, TWEET_SELECTOR,  ampTweet);
 
