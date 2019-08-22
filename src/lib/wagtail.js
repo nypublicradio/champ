@@ -28,6 +28,14 @@ function byPath(path) {
   return query(`${API_PATH}/find`, {html_path: path});
 }
 
+function byId(id) {
+  return request({
+    baseUrl: API_HOST,
+    url: `${API_PATH}/${id}`,
+    json: true,
+  });
+}
+
 const getResizeRule = function({width, height, fit}) {
   if (width != null && height == null) {
     return `width-${width}`
@@ -105,6 +113,7 @@ function getAuthors(article) {
 module.exports = {
   query,
   byPath,
+  byId,
   wagtailImage,
   getThumb,
   getSection,
