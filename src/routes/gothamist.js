@@ -96,6 +96,23 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
     qs('.c-article__lead amp-img').setAttribute('layout', 'responsive');
   }
 
+  if (qs('.c-lead-gallery')) {
+    let { url } = await wagtail.byId(articleJSON.lead_asset[0].value.gallery);
+
+    const link = document.createElement('a');
+    const gallery = qs('.c-lead-gallery');
+    const viewAllButton = gallery.querySelector('.c-lead-gallery__thumbs button:last-of-type');
+
+    qsa('.c-lead-gallery__thumbs-thumb').forEach(node => node.remove());
+
+    link.className = viewAllButton.className;
+    link.innerHTML = viewAllButton.innerHTML;
+    link.append(document.createTextNode('photos'));
+    link.href = url;
+
+    qs('.c-lead-gallery__thumbs').appendChild(link);
+  }
+
   if (qs(TWEET_SELECTOR)) {
     amplify(body, TWEET_SELECTOR,  ampTweet);
 
