@@ -99,6 +99,13 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
     picture.parentNode.removeChild(picture);
   });
 
+  // root relative links should point at gothamist
+  qsa('a[href^="/"]').forEach(node =>
+    node.href = `${process.env.GOTHAMIST_HOST}${node.href}`);
+
+  // amp gallery leads
+  //   - no thumbs
+  //   - link to gallery
   if (qs('.c-lead-gallery')) {
     let { url } = await wagtail.byId(articleJSON.lead_asset[0].value.gallery);
 
