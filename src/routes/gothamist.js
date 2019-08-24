@@ -85,6 +85,12 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
 
   amplify(header, 'img', ampImg);
   amplify(body, 'img', ampImg);
+  
+  qsa('amp-img').forEach(node => {
+    node.setAttribute('layout', 'responsive');
+    node.setAttribute('height', '1');
+    node.setAttribute('width', '1.33');
+  });
 
   qsa('picture').forEach(picture => {
     while(picture.firstChild) {
@@ -92,12 +98,6 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
     }
     picture.parentNode.removeChild(picture);
   });
-
-  if (qs('.c-article__lead amp-img')) {
-    qs('.c-article__lead amp-img').setAttribute('height', '1');
-    qs('.c-article__lead amp-img').setAttribute('width', '1.33');
-    qs('.c-article__lead amp-img').setAttribute('layout', 'responsive');
-  }
 
   if (qs('.c-lead-gallery')) {
     let { url } = await wagtail.byId(articleJSON.lead_asset[0].value.gallery);
