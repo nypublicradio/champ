@@ -255,7 +255,7 @@ describe('amp conversions', function() {
         const [ tag ] = tags;
 
         expect(tags.length).to.equal(4);
-        expect(tag.getAttribute('href')).to.equal('/tags/nypd');
+        expect(tag.getAttribute('href')).to.equal(`${process.env.GOTHAMIST_HOST}/tags/nypd`);
         expect(tag.textContent).to.equal('#nypd');
       })
       .end(done);
