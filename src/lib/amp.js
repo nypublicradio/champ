@@ -162,9 +162,13 @@ function ampIframe(iframe) {
     return AMP_IFRAME;
   }
 
+  const width = iframe.getAttribute('width');
+  const height = iframe.getAttribute('height');
+
+  AMP_IFRAME.setAttribute('width', (width && width !== '100%') ? width : '480');
+  AMP_IFRAME.setAttribute('height', height || '480');
+
   AMP_IFRAME.setAttribute('src', iframe.getAttribute('src'));
-  AMP_IFRAME.setAttribute('width', '480');
-  AMP_IFRAME.setAttribute('height', '480');
   AMP_IFRAME.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups');
 
   return AMP_IFRAME;
