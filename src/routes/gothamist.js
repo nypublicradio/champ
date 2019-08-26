@@ -247,6 +247,9 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
 
     recent: recent.slice(0, 3),
     featured,
+
+    DFP_PREFIX: process.env.NODE_ENV === 'development' ? '/_demo_test'  : '',
+    DFP_NETWORK: "6483581",
   };
 
   try {
