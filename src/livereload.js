@@ -4,9 +4,11 @@ const livereload = require('easy-livereload');
 
 
 const DIRS = [
-  path.join(__dirname, './src'),
-  path.join(__dirname, './test'),
-  path.join(__dirname, './index.dev.js'),
+  path.join(__dirname, './lib'),
+  path.join(__dirname, './routes'),
+  path.join(__dirname, './static'),
+  path.join(__dirname, './views'),
+  path.join(__dirname, './app'),
 ];
 
 module.exports = function(app) {
