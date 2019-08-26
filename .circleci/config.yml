@@ -22,7 +22,9 @@ do_deploy: &do_deploy
           env | sed -n "s/^DEPLOY_"$ENV"_//p" >> .env
     - run:
         name: run-time envvars
-        command: env | sed -n "s/^"$ENV"_//p" > deploy.env
+        command: |
+          env | sed -n "s/^"$ENV"_//p" > deploy.env
+          echo "SENTRY_DSN=$SENTRY_DSN" >> deploy.env
     - deploy:
         command: npx node-lambda deploy -f deploy.env --environment `echo $ENV | tr A-Z a-z`
 
