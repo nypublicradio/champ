@@ -81,7 +81,9 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
   const meta = {
     canonical: URL,
     description: articleJSON.description,
-    headerScripts: [],
+    headerScripts: [
+      get(qs('#structured-data'), 'outerHTML'),
+    ],
   };
 
   amplify(header, 'img', ampImg);
