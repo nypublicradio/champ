@@ -236,6 +236,7 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
       url: anchor.getAttribute('href'),
       name: anchor.textContent.trim(),
     })),
+    authors: Array.from(qsa('.o-byline a')).map(a => a.textContent.trim()).join(', '),
 
     section,
 
@@ -244,7 +245,7 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
 
     year: new Date().getFullYear(), // for copyright
 
-    recent,
+    recent: recent.slice(0, 3),
     featured,
   };
 
