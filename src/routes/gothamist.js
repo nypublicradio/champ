@@ -80,6 +80,7 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
 
   const meta = {
     canonical: URL,
+    description: articleJSON.description,
     headerScripts: [],
   };
 
