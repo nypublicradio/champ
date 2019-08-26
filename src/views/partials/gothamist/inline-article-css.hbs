@@ -194,7 +194,9 @@
     }
   }
 
-  // legacy moveable type images embedded in article content
+  /*
+    legacy moveable type images embedded in article content
+  */
   .image-none i {
     display: flex;
     align-items: center;
@@ -217,8 +219,10 @@
     border-bottom-color: #333;
   }
 
-  // fix extra spacing from line breaks
-  // try to get both breaks following an image
+  /*
+    fix extra spacing from line breaks
+    try to get both breaks following an image
+  */
   .c-article__body > blockquote > br,
   .c-article__body > .image-none + br,
   .c-article__body > .image-none + br + br {
