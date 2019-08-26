@@ -222,7 +222,10 @@ describe('amp conversions', function() {
         const document = getDocument(text);
 
         expect(document.querySelector('iframe'), 'no iframes at all should remain').not.to.be.ok;
-        expect(document.querySelector('body script'), 'no script tags in the body should remain').not.to.be.ok;
+        expect(
+          [...document.querySelectorAll('body script')].filter(s => s.type !== "application/json"),
+          'only json scripts should be allowed in the body'
+        ).to.be.empty;
 
         expect(document.querySelector('script[src*="amp-iframe"]'), 'adds amp iframe script').to.be.ok;
         expect(document.querySelector('amp-iframe'), 'adds <amp-iframe/> tag').to.be.ok;
