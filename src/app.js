@@ -36,7 +36,7 @@ const errorHandler = (err, req, res, next) => {
   res.status(err.statusCode || 500);
   res.render('error', {
     statusCode: err.statusCode,
-    error: err.statusCode === 404 ? err : null,
+    url: err.statusCode === 404 ? err.response.request.href : null,
     layout: false
   });
 }

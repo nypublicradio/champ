@@ -8,13 +8,20 @@
 </head>
 <body>
   {{#if statusCode}}
-    {{statusCode}} error.
+    <h1>
+      {{statusCode}} Error
+    </h1>
 
-    <pre>
-      {{error}}
-    </pre>
+    {{#if url}}
+      <code>
+        Could not find {{url}}.
+      </code>
+    {{/if}}
+
   {{else}}
-    Server error.
+    <h1>
+      Server Error
+    </h1>
   {{/if}}
 </body>
 </html>
