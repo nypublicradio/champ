@@ -48,6 +48,9 @@ const AMP_REDDIT = 'https://cdn.ampproject.org/v0/amp-reddit-0.1.js';
 const IG_LIB = 'instagram.com/embed.js';
 const FB_LIB = 'connect.facebook.net';
 
+const THREE_SECONDS = 3000;
+const TIMEOUT = THREE_SECONDS;
+
 const dedupe = (needle, haystack) => haystack.filter(item =>
   item.id !== needle.id);
 
@@ -60,7 +63,8 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
     const OPTIONS = {
       headers: {
         Accept: 'text/html', // helps with local fastboot requests
-      }
+      },
+      timeout: TIMEOUT,
     };
     [ html, articleJSON ] = await Promise.all([
       request(URL, OPTIONS),

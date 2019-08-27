@@ -10,6 +10,9 @@ const API_PATH = 'api/v2/pages';
 const LEAD_IMAGE   = 'lead_image';
 const SECTION_PAGE_TYPE = 'standardpages.IndexPage';
 
+const THREE_SECONDS = 3000;
+const TIMEOUT = THREE_SECONDS;
+
 function query(path, params) {
   if (typeof path === 'object' || !path) {
     params = path || {};
@@ -21,6 +24,7 @@ function query(path, params) {
     uri: path,
     qs: params,
     json: true,
+    timeout: TIMEOUT,
   })
 }
 
@@ -33,6 +37,7 @@ function byId(id) {
     baseUrl: API_HOST,
     url: `${API_PATH}/${id}`,
     json: true,
+    timeout: TIMEOUT,
   });
 }
 
