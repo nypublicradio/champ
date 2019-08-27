@@ -144,6 +144,30 @@ describe('amp conversions', function() {
       expect(AMP_IG.outerHTML).to.match(/<amp-instagram.*><\/amp-instagram>/);
       expect(AMP_IG.getAttribute('data-shortcode')).to.equal(IG_SHORTCODE);
     });
+
+    it('handles embeds without data attrs', function() {
+      const IG_SHORTCODE = '0JdenQkoP4';
+      const BLOCKQUOTE = makeElement(`
+        <blockquote class="instagram-media" data-instgrm-captioned="" data-instgrm-version="4" style="">
+          <div style="padding:8px;">
+            <div style="">
+              <div style=""></div>
+            </div>
+            <p style="">
+              <a href="https://instagram.com/p/${IG_SHORTCODE}/" style="" target="_blank" rel="noopener">I died tonight. This is what heaven looks like, in case anyone was wondering #cheese #eeeeats #wine #williamsburg #brooklyn #thecamlin</a>
+            </p>
+            <p style="">
+              A photo posted by @nellcasey on <time style=" font-family:Arial,sans-serif; font-size:14px; line-height:17px;" datetime="2015-03-13T00:30:16+00:00">Mar 12, 2015 at 5:30pm PDT</time>
+            </p>
+          </div>
+        </blockquote>
+      `);
+
+      const AMP_IG = ampInsta(BLOCKQUOTE);
+
+      expect(AMP_IG.outerHTML).to.match(/<amp-instagram.*><\/amp-instagram>/);
+      expect(AMP_IG.getAttribute('data-shortcode')).to.equal(IG_SHORTCODE);
+    })
   });
 
   describe('reddit', function() {

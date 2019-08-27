@@ -89,7 +89,14 @@ function ampInsta(blockquote) {
     return AMP_INSTA;
   }
 
-  const permalink = blockquote.dataset.instgrmPermalink;
+  let permalink = blockquote.dataset.instgrmPermalink;
+
+  if (!permalink) {
+    // possibly an old style embed
+    // look at the first matching link
+    let anchor = blockquote.querySelector('a[href*="instagram.com"]');
+    permalink = anchor ? anchor.pathname : null;
+  }
 
   if (permalink) {
     AMP_INSTA.dataset.shortcode = permalink.split('/').filter(s => s).slice(-1);
