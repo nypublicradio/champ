@@ -200,8 +200,8 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
 
   // strip any errant script tags
   qsa('body script').forEach(node => node.remove());
-  // strip inline styles from "responsive objects"
-  qsa('.responsive-object').forEach(node => node.removeAttribute('style'));
+  // strip inline styles
+  qsa('[style]').forEach(node => node.removeAttribute('style'));
 
   const section = wagtail.getSection(articleJSON);
   const PARAMS = {

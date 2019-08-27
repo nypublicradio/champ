@@ -91,7 +91,7 @@ const ARTICLE_BODY = `
 
     <div id="ember801" class="c-article__body o-rte-text u-spacing l-container--content ember-view u-space--zero--top">
       <p><span class="mt-enclosure mt-enclosure-image" style="display: inline;"></span></p>
-      <p></p>
+      <p style="margin: 12px auto 6px auto; font-family: Helvetica,Arial,Sans-serif; font-style: normal; font-variant: normal; font-weight: normal; font-size: 14px; line-height: normal; font-size-adjust: none; font-stretch: normal; -x-system-font: none; display: block;"></p>
       <p>The NYPD officer accused of using an illegal chokehold that ended Eric Garner’s life has been found guilty of misconduct in a police disciplinary trial—the final stages of a case that has defined police-community relations in New York City
         under Mayor Bill de Blasio.</p>
       <p>The administrative judge overseeing the case, Deputy Commissioner Rosemary Maldonado, has recommended that Officer Daniel Pantaleo be fired, according to a source familiar with the decision. Judge Maldonado found him guilty of using an

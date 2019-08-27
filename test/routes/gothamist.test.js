@@ -275,6 +275,18 @@ describe('amp conversions', function() {
       })
       .end(done);
   });
+
+  it('does other template cleanups', function(done) {
+    request(app)
+      .get(`/champ/gothamist${PATH}`)
+      .expect(200)
+      .expect(({ text }) => {
+        const document = getDocument(text);
+
+        expect(document.querySelector('[style]'), 'no inline styles').to.be.null;
+      })
+      .end(done);
+  });
 });
 
 describe('other template areas', function() {
