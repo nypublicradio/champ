@@ -36,6 +36,8 @@ const FB_SELECTOR = '[class^=fb-]';
 const FB_ROOT = '#fb-root';
 const REDDIT_SELECTOR = '.reddit-card';
 
+const DISALLOWED = 'object, embed, frame, frameset, param';
+
 const DUMMY_SCRIPT = makeElement('<script async />');
 const AMP_TWITTER = 'https://cdn.ampproject.org/v0/amp-twitter-0.1.js';
 const AMP_IG = 'https://cdn.ampproject.org/v0/amp-instagram-0.1.js';
@@ -202,6 +204,8 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
   qsa('body script').forEach(node => node.remove());
   // strip inline styles
   qsa('[style]').forEach(node => node.removeAttribute('style'));
+  // strip other disallowed elements
+  qsa(DISALLOWED).forEach(node => node.remove());
 
   const section = wagtail.getSection(articleJSON);
   const PARAMS = {

@@ -284,6 +284,9 @@ describe('amp conversions', function() {
         const document = getDocument(text);
 
         expect(document.querySelector('[style]'), 'no inline styles').to.be.null;
+
+        expect(document.querySelector('object'), 'no <object/> allowed').to.be.null;
+        expect(document.querySelector('embed'), 'no <embed/> allowed').to.be.null;
       })
       .end(done);
   });

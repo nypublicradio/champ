@@ -158,6 +158,10 @@ const ARTICLE_BODY = `
       </div>
 
       <center><blockquote class="reddit-card" data-card-created="1565298615" data-rendering="1"><a href="http://reddit.com/post" target="_blank" rel="noopener">Falcon/hawk? I saw on 86th and 3rd eating what looks to be a pigeon. He did not care at all about all the people around him taking pictures</a><p> from <a href="http://www.reddit.com/r/nyc" target="_blank" rel="noopener">r/nyc</a></p></blockquote><script async="" src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script></center>
+
+      <object data="http://www.myfoxny.com/video/videoplayer.swf?dppversion=8180" height="355" id="video" type="application/x-shockwave-flash" width="420"></object>
+
+      <embed src="http://cnettv.cnet.com/av/video/cbsnews/atlantis2/cbsnews_player_embed.swf" scale="noscale" salign="lt" type="application/x-shockwave-flash" background="#333333"></embed>
     </div>
 
   </div>
