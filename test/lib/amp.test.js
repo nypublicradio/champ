@@ -218,12 +218,13 @@ describe('amp conversions', function() {
   describe('generic iframes', function() {
     it('converts any iframe to an amp-iframe node', function() {
       const SRC = 'http://google.com';
-      const IFRAME = makeElement(`<iframe src="${SRC}" />`);
+      const IFRAME = makeElement(`<iframe src="${SRC}" width="100%" />`);
 
       const AMP_IFRAME = ampIframe(IFRAME);
 
       expect(AMP_IFRAME.outerHTML).to.match(/<amp-iframe.*><\/amp-iframe>/);
       expect(AMP_IFRAME.getAttribute('src')).to.equal(SRC);
+      expect(AMP_IFRAME.getAttribute('width')).to.equal('320');
     });
   });
 
