@@ -41,7 +41,7 @@ function ampImg(node) {
   let width = node.getAttribute('width');
   let height = node.getAttribute('height');
 
-  const AMP_IMG = makeElement('<amp-img layout="fill" />');
+  const AMP_IMG = makeElement('<amp-img layout="responsive" />');
 
   AMP_IMG.setAttribute('src', node.getAttribute('src'));
   if (width && height) {

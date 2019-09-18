@@ -95,13 +95,6 @@ router.get(`/:section_slug/:slug`, async (req, res, next) => {
   amplify(header, 'img', ampImg);
   amplify(body, 'img', ampImg);
 
-  // better image support
-  qsa('amp-img').forEach(node => {
-    node.setAttribute('layout', 'responsive');
-    node.setAttribute('height', '1');
-    node.setAttribute('width', '1.33');
-  });
-
   // picture elements are disallowed in amp
   qsa('picture').forEach(picture => {
     while(picture.firstChild) {
