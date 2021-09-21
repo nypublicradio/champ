@@ -4,16 +4,16 @@ const jsdom = require('jsdom');
 const get = require('just-safe-get');
 
 const {
-  amplify,
-  ampImg,
-  ampTweet,
-  ampInsta,
-  ampYoutube,
-  ampIframe,
-  ampFacebook,
-  ampVimeo,
-  ampReddit,
-  makeElement,
+    amplify,
+    ampImg,
+    ampTweet,
+    ampInsta,
+    ampYoutube,
+    ampIframe,
+    ampFacebook,
+    ampVimeo,
+    ampReddit,
+    makeElement,
 } = require('../lib/amp');
 
 const wagtail = require('../lib/wagtail');
@@ -54,216 +54,216 @@ const THREE_SECONDS = 3000;
 const TIMEOUT = THREE_SECONDS;
 
 const dedupe = (needle, haystack) => haystack.filter(item =>
-  item.id !== needle.id);
+    item.id !== needle.id);
 
-router.get(`/:section_slug/:slug`, async (req, res, next) => {
-  const { section_slug, slug } = req.params;
-  const URL = `${GOTH_HOST}/${section_slug}/${slug}`;
+router.get(`/:section_slug/:slug`, async(req, res, next) => {
+    const { section_slug, slug } = req.params;
+    const URL = `${GOTH_HOST}/${section_slug}/${slug}`;
 
-  let html, articleJSON;
-  try {
-    const OPTIONS = {
-      headers: {
-        Accept: 'text/html', // helps with local fastboot requests
-      },
-      timeout: TIMEOUT,
-    };
-    [ html, articleJSON ] = await Promise.all([
-      request(URL, OPTIONS),
-      wagtail.byPath(`${section_slug}/${slug}`),
-    ]);
-  } catch(e) {
-    return next(e);
-  }
-
-  const { document } = (new JSDOM(html)).window;
-  const qs = selector => document.querySelector(selector);
-  const qsa = selector => document.querySelectorAll(selector);
-
-  const header = qs(HEADER_SELECTOR);
-  const body = qs(BODY_SELECTOR);
-  const tags = qsa(TAGS_SELECTOR);
-
-  const meta = {
-    canonical: URL,
-    description: articleJSON.description,
-    headerScripts: [
-      get(qs('#structured-data'), 'outerHTML'),
-    ],
-  };
-
-  amplify(header, 'img', ampImg);
-  amplify(body, 'img', ampImg);
-
-  // picture elements are disallowed in amp
-  qsa('picture').forEach(picture => {
-    while(picture.firstChild) {
-      picture.parentNode.insertBefore(picture.firstChild, picture);
+    let html, articleJSON;
+    try {
+        const OPTIONS = {
+            headers: {
+                Accept: 'text/html', // helps with local fastboot requests
+            },
+            timeout: TIMEOUT,
+        };
+        [html, articleJSON] = await Promise.all([
+            request(URL, OPTIONS),
+            wagtail.byPath(`${section_slug}/${slug}`),
+        ]);
+    } catch (e) {
+        return next(e);
     }
-    picture.parentNode.removeChild(picture);
-  });
 
-  // root relative links should point at gothamist
-  qsa('a[href^="/"]').forEach(node =>
-    node.href = `${process.env.GOTHAMIST_HOST}${node.href}`);
+    const { document } = (new JSDOM(html)).window;
+    const qs = selector => document.querySelector(selector);
+    const qsa = selector => document.querySelectorAll(selector);
 
-  // amp gallery leads
-  //   - no thumbs
-  //   - link to gallery
-  if (qs('.c-lead-gallery')) {
-    let { url } = await wagtail.byId(articleJSON.lead_asset[0].value.gallery);
+    const header = qs(HEADER_SELECTOR);
+    const body = qs(BODY_SELECTOR);
+    const tags = qsa(TAGS_SELECTOR);
 
-    const link = document.createElement('a');
-    const gallery = qs('.c-lead-gallery');
-    const viewAllButton = gallery.querySelector('.c-lead-gallery__thumbs button:last-of-type');
+    const meta = {
+        canonical: `https://gothamist.com/${section_slug}/${slug}`,
+        description: articleJSON.description,
+        headerScripts: [
+            get(qs('#structured-data'), 'outerHTML'),
+        ],
+    };
 
-    qsa('.c-lead-gallery__thumbs-thumb').forEach(node => node.remove());
+    amplify(header, 'img', ampImg);
+    amplify(body, 'img', ampImg);
 
-    link.href = url;
-    link.className = viewAllButton.className;
-    link.innerHTML = viewAllButton.innerHTML;
-    link.append(document.createTextNode('photos'));
-
-    qs('.c-lead-gallery__thumbs').appendChild(link);
-  }
-
-  if (qs(TWEET_SELECTOR)) {
-    amplify(body, TWEET_SELECTOR,  ampTweet);
-
-    DUMMY_SCRIPT.setAttribute('src', AMP_TWITTER);
-    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-twitter');
-    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
-  }
-
-  if (qs(REDDIT_SELECTOR)) {
-    amplify(body, REDDIT_SELECTOR,  ampReddit);
-
-    DUMMY_SCRIPT.setAttribute('src', AMP_REDDIT);
-    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-reddit');
-    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
-  }
-
-  if (qs(FB_SELECTOR)) {
-    amplify(body, FB_SELECTOR, ampFacebook);
-
-    DUMMY_SCRIPT.setAttribute('src', AMP_FB);
-    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-facebook');
-    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
-
-    // get rid of embedded facebook scripts
-    qsa(`script[src*="${FB_LIB}"]`).forEach(node => node.remove());
-
-    // get rid of other cruft
-    qsa(FB_ROOT).forEach(node => node.remove());
-  }
-
-  if (qs(IG_SELECTOR)) {
-    amplify(body, IG_SELECTOR, ampInsta);
-
-    DUMMY_SCRIPT.setAttribute('src', AMP_IG);
-    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-instagram');
-    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
-
-    // get rid of any embedded IG libs
-    qsa(`script[src*="${IG_LIB}"]`).forEach(node => node.remove());
-  }
-
-  if (qs(YT_SELECTOR)) {
-    amplify(body, YT_SELECTOR,  ampYoutube);
-
-    DUMMY_SCRIPT.setAttribute('src', AMP_YT);
-    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-youtube');
-    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
-  }
-
-  if (qs(VIMEO_SELECTOR)) {
-    amplify(body, VIMEO_SELECTOR,  ampVimeo);
-
-    DUMMY_SCRIPT.setAttribute('src', AMP_VIMEO);
-    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-vimeo');
-    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
-  }
-
-  // replace any remaining iframes
-  if (qs('iframe')) {
-    amplify(body, 'iframe', ampIframe);
-    DUMMY_SCRIPT.setAttribute('src', AMP_IFRAME);
-    DUMMY_SCRIPT.setAttribute('custom-element', 'amp-iframe');
-
-    meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
-  }
-
-  // strip any errant script tags
-  qsa('body script').forEach(node => node.remove());
-  // strip inline styles
-  qsa('[style]').forEach(node => node.removeAttribute('style'));
-  // strip other disallowed elements
-  qsa(DISALLOWED).forEach(node => node.remove());
-
-  const section = wagtail.getSection(articleJSON);
-  const PARAMS = {
-    type: 'news.ArticlePage',
-    fields: '*',
-    order: '-publication_date',
-    show_on_index_listing: true,
-    descendant_of: section.id,
-  };
-  let [ {items:recent = []}, {items:featured = []} ] = await Promise.all([
-    wagtail.query({...PARAMS, limit: 4}),
-    wagtail.query({...PARAMS, limit: 5, show_as_feature: true}),
-  ]);
-
-  recent = dedupe(articleJSON, recent);
-  featured = dedupe(articleJSON, featured);
-  recent.forEach(a => featured = dedupe(a, featured));
-
-  // query returns an array
-  // only need the first featured item
-  [ featured ] = featured;
-  if (featured) {
-    featured.thumbnail = wagtail.getThumb(featured);
-    featured.section = wagtail.getSection(featured);
-    featured.authors = wagtail.getAuthors(featured);
-  }
-  recent.forEach(recent => {
-    recent.thumbnail = wagtail.getThumb(recent)
-    recent.section = wagtail.getSection(recent)
-    recent.authors = wagtail.getAuthors(recent);
-  });
-
-  const locals = {
-    meta,
-    title: document.title,
-    header: get(header, 'outerHTML'),
-    body: get(body, 'outerHTML'),
-    tags: Array.from(tags).map(anchor => ({
-      url: anchor.getAttribute('href'),
-      name: anchor.textContent.trim(),
-    })),
-    authors: Array.from(qsa('.o-byline a')).map(a => a.textContent.trim()).join(', '),
-
-    section,
-
-    NEWSLETTER_ENDPOINT,
-    NEWSLETTER_ID,
-
-    year: new Date().getFullYear(), // for copyright
-
-    recent: recent.slice(0, 3),
-    featured,
-
-    DFP_PREFIX: process.env.NODE_ENV === 'development' ? '/_demo_test'  : '',
-    DFP_NETWORK: "6483581",
-  };
-
-  try {
-    res.render('gothamist/article', {
-      ...locals,
-      layout: false,
+    // picture elements are disallowed in amp
+    qsa('picture').forEach(picture => {
+        while (picture.firstChild) {
+            picture.parentNode.insertBefore(picture.firstChild, picture);
+        }
+        picture.parentNode.removeChild(picture);
     });
-  } catch(e) {
-    next(e);
-  }
+
+    // root relative links should point at gothamist
+    qsa('a[href^="/"]').forEach(node =>
+        node.href = `${process.env.GOTHAMIST_HOST}${node.href}`);
+
+    // amp gallery leads
+    //   - no thumbs
+    //   - link to gallery
+    if (qs('.c-lead-gallery')) {
+        let { url } = await wagtail.byId(articleJSON.lead_asset[0].value.gallery);
+
+        const link = document.createElement('a');
+        const gallery = qs('.c-lead-gallery');
+        const viewAllButton = gallery.querySelector('.c-lead-gallery__thumbs button:last-of-type');
+
+        qsa('.c-lead-gallery__thumbs-thumb').forEach(node => node.remove());
+
+        link.href = url;
+        link.className = viewAllButton.className;
+        link.innerHTML = viewAllButton.innerHTML;
+        link.append(document.createTextNode('photos'));
+
+        qs('.c-lead-gallery__thumbs').appendChild(link);
+    }
+
+    if (qs(TWEET_SELECTOR)) {
+        amplify(body, TWEET_SELECTOR, ampTweet);
+
+        DUMMY_SCRIPT.setAttribute('src', AMP_TWITTER);
+        DUMMY_SCRIPT.setAttribute('custom-element', 'amp-twitter');
+        meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+    }
+
+    if (qs(REDDIT_SELECTOR)) {
+        amplify(body, REDDIT_SELECTOR, ampReddit);
+
+        DUMMY_SCRIPT.setAttribute('src', AMP_REDDIT);
+        DUMMY_SCRIPT.setAttribute('custom-element', 'amp-reddit');
+        meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+    }
+
+    if (qs(FB_SELECTOR)) {
+        amplify(body, FB_SELECTOR, ampFacebook);
+
+        DUMMY_SCRIPT.setAttribute('src', AMP_FB);
+        DUMMY_SCRIPT.setAttribute('custom-element', 'amp-facebook');
+        meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+
+        // get rid of embedded facebook scripts
+        qsa(`script[src*="${FB_LIB}"]`).forEach(node => node.remove());
+
+        // get rid of other cruft
+        qsa(FB_ROOT).forEach(node => node.remove());
+    }
+
+    if (qs(IG_SELECTOR)) {
+        amplify(body, IG_SELECTOR, ampInsta);
+
+        DUMMY_SCRIPT.setAttribute('src', AMP_IG);
+        DUMMY_SCRIPT.setAttribute('custom-element', 'amp-instagram');
+        meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+
+        // get rid of any embedded IG libs
+        qsa(`script[src*="${IG_LIB}"]`).forEach(node => node.remove());
+    }
+
+    if (qs(YT_SELECTOR)) {
+        amplify(body, YT_SELECTOR, ampYoutube);
+
+        DUMMY_SCRIPT.setAttribute('src', AMP_YT);
+        DUMMY_SCRIPT.setAttribute('custom-element', 'amp-youtube');
+        meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+    }
+
+    if (qs(VIMEO_SELECTOR)) {
+        amplify(body, VIMEO_SELECTOR, ampVimeo);
+
+        DUMMY_SCRIPT.setAttribute('src', AMP_VIMEO);
+        DUMMY_SCRIPT.setAttribute('custom-element', 'amp-vimeo');
+        meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+    }
+
+    // replace any remaining iframes
+    if (qs('iframe')) {
+        amplify(body, 'iframe', ampIframe);
+        DUMMY_SCRIPT.setAttribute('src', AMP_IFRAME);
+        DUMMY_SCRIPT.setAttribute('custom-element', 'amp-iframe');
+
+        meta.headerScripts.push(DUMMY_SCRIPT.outerHTML);
+    }
+
+    // strip any errant script tags
+    qsa('body script').forEach(node => node.remove());
+    // strip inline styles
+    qsa('[style]').forEach(node => node.removeAttribute('style'));
+    // strip other disallowed elements
+    qsa(DISALLOWED).forEach(node => node.remove());
+
+    const section = wagtail.getSection(articleJSON);
+    const PARAMS = {
+        type: 'news.ArticlePage',
+        fields: '*',
+        order: '-publication_date',
+        show_on_index_listing: true,
+        descendant_of: section.id,
+    };
+    let [{ items: recent = [] }, { items: featured = [] }] = await Promise.all([
+        wagtail.query({...PARAMS, limit: 4 }),
+        wagtail.query({...PARAMS, limit: 5, show_as_feature: true }),
+    ]);
+
+    recent = dedupe(articleJSON, recent);
+    featured = dedupe(articleJSON, featured);
+    recent.forEach(a => featured = dedupe(a, featured));
+
+    // query returns an array
+    // only need the first featured item
+    [featured] = featured;
+    if (featured) {
+        featured.thumbnail = wagtail.getThumb(featured);
+        featured.section = wagtail.getSection(featured);
+        featured.authors = wagtail.getAuthors(featured);
+    }
+    recent.forEach(recent => {
+        recent.thumbnail = wagtail.getThumb(recent)
+        recent.section = wagtail.getSection(recent)
+        recent.authors = wagtail.getAuthors(recent);
+    });
+
+    const locals = {
+        meta,
+        title: document.title,
+        header: get(header, 'outerHTML'),
+        body: get(body, 'outerHTML'),
+        tags: Array.from(tags).map(anchor => ({
+            url: anchor.getAttribute('href'),
+            name: anchor.textContent.trim(),
+        })),
+        authors: Array.from(qsa('.o-byline a')).map(a => a.textContent.trim()).join(', '),
+
+        section,
+
+        NEWSLETTER_ENDPOINT,
+        NEWSLETTER_ID,
+
+        year: new Date().getFullYear(), // for copyright
+
+        recent: recent.slice(0, 3),
+        featured,
+
+        DFP_PREFIX: process.env.NODE_ENV === 'development' ? '/_demo_test' : '',
+        DFP_NETWORK: "6483581",
+    };
+
+    try {
+        res.render('gothamist/article', {
+            ...locals,
+            layout: false,
+        });
+    } catch (e) {
+        next(e);
+    }
 });
 
 module.exports = router;
