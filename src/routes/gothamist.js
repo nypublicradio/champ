@@ -56,6 +56,10 @@ const TIMEOUT = THREE_SECONDS;
 const dedupe = (needle, haystack) => haystack.filter(item =>
     item.id !== needle.id);
 
+const canonicalizeHost = function(html) {
+    return html.replace(new RegExp(`${GOTH_HOST}`, 'gm'), 'https://gothamist.com');
+}
+
 router.get(`/:section_slug/:slug`, async(req, res, next) => {
     const { section_slug, slug } = req.params;
     const URL = `${GOTH_HOST}/${section_slug}/${slug}`;
@@ -234,13 +238,13 @@ router.get(`/:section_slug/:slug`, async(req, res, next) => {
     const locals = {
         meta,
         title: document.title,
-        header: get(header, 'outerHTML'),
+        header: canonicalizeHost(get(header, 'outerHTML')),
         body: get(body, 'outerHTML'),
         tags: Array.from(tags).map(anchor => ({
-            url: anchor.getAttribute('href'),
+            url: canonicalizeHost(anchor.getAttribute('href')),
             name: anchor.textContent.trim(),
         })),
-        authors: Array.from(qsa('.o-byline a')).map(a => a.textContent.trim()).join(', '),
+        authors: canonicalizeHost(Array.from(qsa('.o-byline a')).map(a => a.textContent.trim()).join(', ')),
 
         section,
 
